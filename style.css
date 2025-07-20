@@ -584,10 +584,10 @@ h2.section-title {
 /* Redesigned Header for Dashboard */
 .top-nav-dashboard {
     display: flex;
-    justify-content: space-between; /* Pushes welcome-section to left, nav-actions-dashboard to right */
+    justify-content: space-between;
     align-items: center;
-    padding: 1rem; /* Adjust as needed for spacing */
-    background-color: var(--dark-bg); /* Match app background */
+    padding: 1rem;
+    background-color: var(--dark-bg);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
@@ -595,19 +595,19 @@ h2.section-title {
 }
 
 .welcome-section {
-    flex-grow: 1; /* Allow it to take available space */
-    flex-shrink: 1; /* Allow it to shrink */
-    min-width: 0; /* Important for flex items with text that might not wrap */
-    margin-right: 1rem; /* Space between welcome text and actions */
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    margin-right: 1rem;
 }
 
 #welcome-message {
     font-weight: 700;
     font-size: 1.8rem;
     margin: 0;
-    white-space: nowrap; /* Prevent welcome message from wrapping */
-    overflow: hidden; /* Hide overflow if it shrinks too much */
-    text-overflow: ellipsis; /* Add ellipsis for overflow */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 #welcome-message span {
     color: var(--primary-color);
@@ -615,7 +615,7 @@ h2.section-title {
 .date-display {
     color: var(--text-muted);
     font-size: 1.2rem;
-    white-space: nowrap; /* Prevent date from wrapping */
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -623,8 +623,8 @@ h2.section-title {
 .nav-actions-dashboard {
     display: flex;
     align-items: center;
-    gap: 0; /* No gap needed if only the 3-dot menu is there */
-    flex-shrink: 0; /* Prevent the actions from shrinking */
+    gap: 0;
+    flex-shrink: 0;
 }
 
 
@@ -632,18 +632,14 @@ h2.section-title {
 
 
 /* Dashboard Grid and Animation */
-.bento-grid-animated { /* Desktop-specific grid (might be overridden by mobile grid) */
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-}
-.bento-grid-animated-mobile { /* Default mobile-first grid, will be column on small, 2x2 on medium */
+/* .bento-grid-animated is now primary grid for dashboard sections on both desktop/mobile */
+.bento-grid-animated-mobile { /* Renamed for clarity - this is the main dashboard grid */
     display: grid;
     grid-template-columns: 1fr; /* Default to single column for smallest screens */
-    gap: 0.8rem; /* Smaller gap for mobile */
+    gap: 0.8rem; /* Consistent gap for mobile */
 }
 
-/* Base style for animated boxes (replaces .bento-box for dashboard/analytics) */
+/* Base style for animated boxes (applies to all stat/chart boxes) */
 .bento-box {
     background: var(--card-bg);
     backdrop-filter: blur(10px);
@@ -657,7 +653,6 @@ h2.section-title {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     position: relative;
-    /* Added initial animation state */
     opacity: 0;
     transform: translateY(20px);
 }
@@ -722,16 +717,15 @@ h2.section-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 2rem; /* Add some top margin for sections */
-    margin-bottom: 1.5rem; /* Adjusted for mobile space */
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--border-color);
     transition: all 0.6s ease;
-    /* Added initial animation state */
     opacity: 0;
     transform: translateY(20px);
 }
-.section-header-animated.is-visible { /* For animate-on-scroll */
+.section-header-animated.is-visible {
     opacity: 1;
     transform: translateY(0);
 }
@@ -743,7 +737,7 @@ h2.section-title {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 2rem; /* Default for mobile H2 */
+    font-size: 2rem;
 }
 .section-header-animated h2 i, .section-header-animated h3 i {
     color: var(--primary-color);
@@ -751,13 +745,13 @@ h2.section-title {
 }
 .section-header-animated .btn {
     flex-shrink: 0;
-    padding: 0.6rem 1rem; /* Smaller button for mobile headers */
+    padding: 0.6rem 1rem;
     font-size: 0.9rem;
 }
 
 
 /* Goals Grid Enhancements */
-.goals-grid-custom .bento-box { /* Custom class for Goals section grid */
+.goals-grid-custom .bento-box {
     text-align: left;
 }
 .goals-grid-custom .bento-box .stat-icon-wrapper {
@@ -798,11 +792,10 @@ h2.section-title {
     background-color: var(--card-bg);
     padding: 1rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    /* Added initial animation state */
     opacity: 0;
     transform: translateY(20px);
 }
-.table-animated.is-visible { /* For animate-on-scroll */
+.table-animated.is-visible {
     opacity: 1;
     transform: translateY(0);
 }
@@ -844,88 +837,7 @@ h2.section-title {
 }
 
 
-/* Dashboard - Mobile Main Stats Carousel (New Feature) */
-.mobile-main-stats-carousel {
-    display: none; /* Hidden by default, shown on mobile */
-    overflow: hidden;
-    width: 100%;
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-bottom: 2rem; /* Space for dots */
-}
-
-.carousel-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    width: 100%; /* Ensure track takes full width of carousel */
-}
-
-.carousel-slide {
-    flex-shrink: 0; /* Prevent slides from shrinking */
-    width: 100%; /* Each slide takes full width of its container */
-    box-sizing: border-box; /* Include padding/border in width */
-    padding: 1.5rem;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-}
-
-.stat-highlight-card .stat-icon-wrapper {
-    width: 70px;
-    height: 70px;
-    background: rgba(0, 255, 171, 0.15);
-    border-radius: 50%; /* Make icon background round */
-    margin-bottom: 15px;
-    box-shadow: 0 0 15px rgba(0, 255, 171, 0.2);
-}
-.stat-highlight-card .stat-icon-wrapper .stat-icon {
-    font-size: 3rem; /* Larger icon for highlight */
-    color: var(--primary-color);
-}
-.stat-highlight-card .stat-label {
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-.stat-highlight-card .stat-value-animated {
-    font-size: 4rem; /* Super large number for highlight */
-    font-weight: 900;
-    color: var(--primary-color);
-    line-height: 1;
-    text-shadow: 0 0 20px rgba(0, 255, 171, 0.5);
-}
-
-.carousel-nav {
-    position: absolute;
-    bottom: 0.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 0.5rem;
-}
-.carousel-nav .dot {
-    width: 10px;
-    height: 10px;
-    background-color: var(--text-muted);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-.carousel-nav .dot.active {
-    background-color: var(--primary-color);
-    transform: scale(1.2);
-}
-
 .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
-.bento-box { background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 20px; padding: 1.25rem; border: 1px solid var(--border-color); display: flex; flex-direction: column; transition: all 0.3s ease; }
-.bento-box:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(0, 255, 171, 0.1); }
 .box-content { flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
 .box-3 { grid-column: 1 / -1; }
 @media (min-width: 768px) { .box-3 { grid-column: span 2; } }
@@ -1065,13 +977,24 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
 
 /* Adjust the log button's text visibility */
 .bottom-nav .log-button span {
-    visibility: hidden;
-    height: 0;
+    /* Re-enabled for clarity, but can be hidden via media query if needed */
+    visibility: visible; /* Changed from hidden */
+    height: auto;
+    line-height: normal;
+    font-size: 0.75rem; /* Ensure consistent font size */
     margin: 0;
     padding: 0;
     display: block;
-    line-height: 0;
-    font-size: 0;
+    margin-top: 4px;
+}
+.bottom-nav .log-button i {
+    font-size: 1.5rem; /* Make it consistent with other icons by default */
+    color: var(--primary-color);
+    margin-top: 0; /* Remove negative margin */
+    transition: transform 0.3s;
+}
+.bottom-nav .log-button:hover i {
+    transform: scale(1.1);
 }
 
 /* --- Top Menu Bar for Landing and Dashboard (including 3-dot menu) --- */
@@ -1631,11 +1554,13 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
         padding: 0.8rem;
     }
     .bento-grid-animated { /* Desktop-specific, hide it */
-        display: none;
+        display: grid; /* Changed to grid from none */
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+        gap: 0.8rem;
     }
-    .bento-grid-animated-mobile { /* Show on smaller screens */
+    .bento-grid-animated-mobile { /* This class is now used for the unified grid */
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 2 columns on tablets */
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Keep 2 columns on tablets, 1 on smallest */
         gap: 0.8rem;
     }
     .bento-box {
@@ -1678,25 +1603,9 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
         font-size: 0.9rem;
     }
 
-    /* Mobile Stats Carousel */
+    /* Mobile Stats Carousel - Hiding on wider screens (tablet & up) */
     .mobile-main-stats-carousel {
-        display: flex; /* Show carousel on mobile */
-    }
-    .stat-highlight-card {
-        padding: 1.5rem;
-    }
-    .stat-highlight-card .stat-value-animated {
-        font-size: 3.5rem; /* Larger for highlight */
-    }
-    .stat-highlight-card .stat-label {
-        font-size: 1.1rem;
-    }
-    .stat-highlight-card .stat-icon-wrapper {
-        width: 60px;
-        height: 60px;
-    }
-    .stat-highlight-card .stat-icon {
-        font-size: 2.5rem;
+        display: none; /* Hide carousel on tablets and larger */
     }
 }
 
@@ -1765,7 +1674,7 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     }
 
     /* Dashboard-specific adjustments for smallest screens */
-    .bento-grid-animated-mobile {
+    .bento-grid-animated-mobile { /* This class is now the primary for dashboard stats */
         grid-template-columns: 1fr; /* Force single column on smallest screens */
         gap: 0.6rem;
     }
@@ -1803,5 +1712,19 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     .table-animated thead th, .table-animated tbody td {
         padding: 6px 8px;
         font-size: 0.8rem;
+    }
+    /* Mobile Stats Carousel - ensure it's displayed on very small screens if it's the primary stat view */
+    .mobile-main-stats-carousel {
+        display: flex; /* Show carousel only on extra-small screens below 576px */
+    }
+    .stat-highlight-card .stat-value-animated {
+        font-size: 3rem; /* Slightly smaller for smallest phones */
+    }
+    .stat-highlight-card .stat-icon-wrapper {
+        width: 55px;
+        height: 55px;
+    }
+    .stat-highlight-card .stat-icon {
+        font-size: 2.2rem;
     }
 }
