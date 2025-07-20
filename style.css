@@ -632,11 +632,10 @@ h2.section-title {
 
 
 /* Dashboard Grid and Animation */
-/* .bento-grid-animated is now primary grid for dashboard sections on both desktop/mobile */
-.bento-grid-animated-mobile { /* Renamed for clarity - this is the main dashboard grid */
+.bento-grid-animated-mobile { /* This is the main grid for most dashboard sections */
     display: grid;
     grid-template-columns: 1fr; /* Default to single column for smallest screens */
-    gap: 0.8rem; /* Consistent gap for mobile */
+    gap: 0.8rem;
 }
 
 /* Base style for animated boxes (applies to all stat/chart boxes) */
@@ -656,7 +655,7 @@ h2.section-title {
     opacity: 0;
     transform: translateY(20px);
 }
-.bento-box.is-visible { /* For animate-on-scroll */
+.bento-box.is-visible {
     opacity: 1;
     transform: translateY(0);
 }
@@ -975,22 +974,15 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     margin-top: 4px;
 }
 
-/* Adjust the log button's text visibility */
-.bottom-nav .log-button span {
-    /* Re-enabled for clarity, but can be hidden via media query if needed */
-    visibility: visible; /* Changed from hidden */
-    height: auto;
-    line-height: normal;
-    font-size: 0.75rem; /* Ensure consistent font size */
-    margin: 0;
-    padding: 0;
-    display: block;
-    margin-top: 4px;
+/* Re-designed Log Button in Bottom Nav */
+.bottom-nav .log-button {
+    font-size: 0.75rem; /* Match other text sizes */
+    font-weight: 600; /* Add boldness */
+    /* Removed specific margin-top and larger font-size from previous iterations */
 }
 .bottom-nav .log-button i {
-    font-size: 1.5rem; /* Make it consistent with other icons by default */
+    font-size: 1.5rem; /* Keep icon size consistent with others */
     color: var(--primary-color);
-    margin-top: 0; /* Remove negative margin */
     transition: transform 0.3s;
 }
 .bottom-nav .log-button:hover i {
@@ -1553,14 +1545,8 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     .main-content {
         padding: 0.8rem;
     }
-    .bento-grid-animated { /* Desktop-specific, hide it */
-        display: grid; /* Changed to grid from none */
-        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
-        gap: 0.8rem;
-    }
-    .bento-grid-animated-mobile { /* This class is now used for the unified grid */
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Keep 2 columns on tablets, 1 on smallest */
+    .bento-grid-animated-mobile {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 2 columns on tablets */
         gap: 0.8rem;
     }
     .bento-box {
@@ -1603,7 +1589,7 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
         font-size: 0.9rem;
     }
 
-    /* Mobile Stats Carousel - Hiding on wider screens (tablet & up) */
+    /* Mobile Stats Carousel - Hidden on tablets, shown on smaller phones only */
     .mobile-main-stats-carousel {
         display: none; /* Hide carousel on tablets and larger */
     }
@@ -1674,7 +1660,7 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     }
 
     /* Dashboard-specific adjustments for smallest screens */
-    .bento-grid-animated-mobile { /* This class is now the primary for dashboard stats */
+    .bento-grid-animated-mobile {
         grid-template-columns: 1fr; /* Force single column on smallest screens */
         gap: 0.6rem;
     }
