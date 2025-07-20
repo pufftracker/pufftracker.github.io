@@ -631,6 +631,197 @@ h2.section-title {
 .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; }
 
 
+/* Dashboard Grid and Animation */
+.bento-grid-animated {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem; /* Consistent gap */
+}
+
+/* Base style for animated boxes (replaces .bento-box for dashboard/analytics) */
+.bento-box {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.25rem;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures content spreads out vertically */
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); /* Slightly stronger default shadow */
+    overflow: hidden; /* Important for inner animations */
+    position: relative; /* For pseudo-elements or subtle effects */
+}
+
+.bento-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(0, 255, 171, 0.15); /* More pronounced hover shadow */
+    border-color: var(--primary-color); /* Highlight border on hover */
+}
+
+/* Animated Stat Values (for numbers like smoked today, total smoked, etc.) */
+.stat-value-animated {
+    font-family: 'Poppins', sans-serif; /* Use Poppins for prominent numbers */
+    font-size: 2.5rem; /* Larger font size */
+    font-weight: 800; /* Bolder */
+    color: var(--primary-color);
+    line-height: 1;
+    text-shadow: 0 0 10px rgba(0, 255, 171, 0.3); /* Subtle glow */
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.bento-box:hover .stat-value-animated {
+    color: #fff; /* White text on hover */
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Stronger glow */
+}
+
+
+/* Animated Stat Icons */
+.stat-icon-wrapper {
+    width: 50px; /* Fixed size container */
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 255, 171, 0.1); /* Subtle background for icons */
+    border-radius: 12px;
+    margin-bottom: 10px; /* Space from text */
+    transition: all 0.3s ease;
+}
+.bento-box:hover .stat-icon-wrapper {
+    background: var(--primary-color); /* Primary color background on hover */
+    box-shadow: 0 0 20px rgba(0, 255, 171, 0.5);
+    transform: rotate(5deg) scale(1.1); /* Subtle rotation and scale on hover */
+}
+
+.stat-icon-wrapper .stat-icon { /* Target the icon inside the wrapper */
+    font-size: 1.8rem; /* Larger icon size */
+    color: var(--primary-color); /* Primary color for icon */
+    transition: color 0.3s ease;
+}
+.bento-box:hover .stat-icon-wrapper .stat-icon {
+    color: var(--dark-bg); /* Dark background color for icon on hover */
+}
+
+
+/* Section Headers with Animation */
+.section-header-animated {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.6s ease;
+}
+.section-header-animated h2, .section-header-animated h3 {
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.section-header-animated h2 i, .section-header-animated h3 i {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+}
+.section-header-animated .btn {
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+/* Ensure the animate-on-scroll works on these headers */
+.section-header-animated.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+}
+.section-header-animated.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Goals Grid Enhancements */
+.goals-grid .bento-box {
+    text-align: left; /* Align content to left within goal boxes */
+}
+.goals-grid .bento-box .stat-icon-wrapper {
+    background: transparent; /* No specific background for goal icons, or can be a lighter tint */
+    border-radius: 0;
+    width: auto;
+    height: auto;
+    justify-content: flex-start;
+    margin-bottom: 5px;
+}
+.goals-grid .bento-box .stat-icon-wrapper .stat-icon {
+    font-size: 1.5rem; /* Smaller icons for goals */
+    color: var(--primary-color);
+}
+.goals-grid .bento-box .stat-value-animated {
+    font-size: 2rem; /* Slightly smaller numbers for goals */
+    color: var(--text-color); /* Default text color, highlight from status */
+}
+.goals-grid .bento-box .stat-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+.goals-grid .bento-box .text-muted {
+    font-size: 0.85rem;
+}
+.goals-grid .bento-box .progress {
+    height: 6px;
+    margin-top: 10px !important;
+}
+
+
+/* Table Animations */
+.table-animated {
+    overflow-x: auto; /* Ensure tables are scrollable on small screens */
+    border-radius: 20px;
+    background-color: var(--card-bg); /* Use card background for tables */
+    padding: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.table-animated table {
+    width: 100%;
+    border-collapse: separate; /* Required for border-radius on cells */
+    border-spacing: 0;
+}
+.table-animated thead th {
+    background-color: rgba(0, 255, 171, 0.1); /* Light primary tint for header */
+    color: var(--primary-color); /* Primary color for header text */
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+.table-animated tbody tr {
+    transition: background-color 0.3s ease;
+}
+.table-animated tbody tr:nth-child(even) {
+    background-color: rgba(30, 30, 30, 0.3); /* Slightly different row color */
+}
+.table-animated tbody tr:hover {
+    background-color: rgba(0, 255, 171, 0.05); /* Hover effect on rows */
+}
+.table-animated tbody td {
+    padding: 10px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    vertical-align: middle;
+}
+.table-animated tbody tr:last-child td {
+    border-bottom: none;
+}
+.table-animated .badge {
+    padding: 0.4em 0.7em; /* Make badges slightly larger */
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+
 .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
 .bento-box { background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 20px; padding: 1.25rem; border: 1px solid var(--border-color); display: flex; flex-direction: column; transition: all 0.3s ease; }
 .bento-box:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(0, 255, 171, 0.1); }
@@ -643,11 +834,8 @@ h2.section-title {
 .stat-value { font-size: 2.2rem; font-weight: 700; }
 .stat-label { font-size: 0.9rem; color: var(--text-muted); }
 .stat-icon { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 10px; }
-.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(18, 18, 18, 0.8); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid var(--border-color); z-index: 1000; }
-.bottom-nav .nav-item { color: var(--text-muted); text-align: center; font-size: 0.75rem; background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; transition: color 0.3s; }
-.bottom-nav .nav-item.active, .bottom-nav .nav-item:hover { color: var(--primary-color); }
-.bottom-nav .log-button i { font-size: 2.5rem; color: var(--primary-color); margin-top: -15px; transition: transform 0.3s; }
-.bottom-nav .log-button:hover i { transform: scale(1.1); }
+
+
 .modal-content { background-color: #2a2a2a; color: var(--text-color); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; }
 .modal-header, .modal-footer { border: none; }
 .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
@@ -1344,14 +1532,14 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     
     .landing-nav .nav-actions {
         gap: 0.4rem;
-        flex-wrap: nowrap; /* Prevent actions from wrapping */
-        justify-content: flex-end; /* Ensure actions stay to the right */
+        flex-wrap: nowrap;
+        justify-content: flex-end;
     }
     .landing-nav .nav-actions .btn {
         padding: 0.4rem 0.8rem;
         font-size: 0.8rem;
     }
-    .landing-nav .logo { /* Make logo slightly smaller on smallest screens */
+    .landing-nav .logo {
         font-size: 1.3rem;
         gap: 4px;
         margin-right: 0.5rem;
