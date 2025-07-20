@@ -93,58 +93,86 @@ body::before {
     width: 100%;
     z-index: 1000;
     transition: background-color 0.3s ease, padding 0.3s ease;
-    padding: 1rem 0;
+    padding: 1rem 0; /* Slightly more vertical padding */
 }
 .landing-header.scrolled {
-    background-color: rgba(18, 18, 18, 0.8);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(18, 18, 18, 0.9); /* Slightly more opaque when scrolled */
+    backdrop-filter: blur(15px); /* More blur */
+    -webkit-backdrop-filter: blur(15px);
     border-bottom: 1px solid var(--border-color);
     padding: 0.8rem 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Subtle shadow on scroll */
 }
 .landing-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: max-height 0.3s ease; 
 }
+
 .logo {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.6rem;
+    font-size: 1.8rem; /* Slightly larger logo */
     font-weight: 700;
     color: var(--text-color);
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0; /* Prevent logo from shrinking on smaller screens */
+    margin-right: 2rem; /* Space between logo and middle section */
 }
-.logo i { color: var(--primary-color); font-size: 1.8rem; }
+.logo i { color: var(--primary-color); font-size: 2rem; } /* Slightly larger icon */
+
+.nav-middle-section { /* New wrapper for centralized nav-links */
+    flex-grow: 1; /* Allows it to take available space */
+    display: flex;
+    justify-content: center; /* Center the links within this section */
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem; /* Space between nav links */
+}
 .nav-links a {
-    margin: 0 1.2rem;
     color: var(--text-muted);
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s ease;
+    font-size: 1rem; /* Standard font size */
+    transition: color 0.3s ease, transform 0.2s ease;
+    padding: 0.5rem 0; /* Add vertical padding for click area */
+    position: relative; /* For underline effect */
 }
-.nav-links a:hover { color: var(--text-color); }
+.nav-links a:hover { 
+    color: var(--text-color); 
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+.nav-links a::after { /* Underline effect */
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+.nav-links a:hover::after {
+    width: 100%;
+}
 
-.btn {
-    padding: 0.7rem 1.4rem;
-    border-radius: 10px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    display: inline-block;
-    text-decoration: none;
-    font-size: 0.95rem;
-    text-align: center;
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Space between 3-dot menu and Login button */
+    flex-shrink: 0; /* Prevent actions from shrinking */
+    margin-left: 2rem; /* Space between middle section and actions */
 }
 .nav-actions .btn {
-    padding: 0.8rem 1.5rem;
+    padding: 0.7rem 1.4rem;
+    font-size: 0.95rem;
 }
-.btn-primary { background-color: var(--primary-color); color: var(--dark-bg); border: 1px solid var(--primary-color);}
-.btn-primary:hover { background-color: #fff; color: var(--dark-bg); transform: translateY(-3px); border-color: #fff; box-shadow: var(--hover-shadow);}
-.btn-secondary { background: transparent; border: 1px solid var(--border-color); color: var(--text-color); }
-.btn-secondary:hover { background-color: var(--text-color); color: var(--dark-bg); transform: translateY(-3px); box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1); }
-.btn-lg { padding: 1rem 2.5rem; font-size: 1.15rem; border-radius: 12px; }
+
 
 .hero-section {
     min-height: 100vh;
@@ -564,11 +592,9 @@ h2.section-title {
     position: sticky;
     top: 0;
     z-index: 100;
-    /* This ensures it always tries to lay out in a single row */
 }
 
 .welcome-section {
-    /* Allow the welcome section to shrink if needed */
     flex-grow: 1; /* Allow it to take available space */
     flex-shrink: 1; /* Allow it to shrink */
     min-width: 0; /* Important for flex items with text that might not wrap */
@@ -603,7 +629,6 @@ h2.section-title {
 
 
 .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; }
-/* The original .header is still used in Goals and History sections, so keep it */
 
 
 .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
@@ -629,7 +654,7 @@ h2.section-title {
 .form-label { font-weight: 500; }
 .form-control, .form-select {
     background-color: #3a3a3a;
-    border: 1px solid var(--border-color); /* Corrected from #555 for consistency */
+    border: 1px solid var(--border-color);
     color: var(--text-color);
     border-radius: 8px;
 }
@@ -835,8 +860,7 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     padding: 10px 16px;
     font-size: 0.95rem;
     cursor: pointer;
-    display: block; /* Ensure it behaves like a block-level item in flex */
-    /* Removed gap: 10px; and align-items: center; as there's no icon */
+    display: block;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -1146,17 +1170,33 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
 
 /* Media Queries for Responsiveness */
 @media (max-width: 992px) {
-    .nav-links { display: none; }
-
-    .landing-nav .nav-actions {
-        display: flex;
-        gap: 0.8rem;
+    /* Landing page Nav */
+    .landing-header {
+        padding: 0.8rem 0;
     }
-    .landing-nav .nav-actions .btn {
+    .logo {
+        font-size: 1.6rem;
+        margin-right: 1rem;
+    }
+    .logo i { font-size: 1.8rem; }
+
+    .nav-links { 
+        display: none; /* Hide main nav links on smaller screens */
+    }
+    .nav-middle-section {
+        flex-grow: 0;
+    }
+
+    .nav-actions {
+        gap: 1rem;
+        margin-left: 1rem;
+    }
+    .nav-actions .btn {
         padding: 0.6rem 1.2rem;
         font-size: 0.9rem;
     }
 
+    /* General Sections */
     .hero-section { 
         flex-direction: column; 
         text-align: center; 
@@ -1300,17 +1340,23 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
 
 @media (max-width: 576px) {
     .container { padding: 0 1rem; }
-    .landing-header { padding: 0.5rem 0; }
+    .landing-header { padding: 0.6rem 0; }
     
     .landing-nav .nav-actions {
         gap: 0.4rem;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-wrap: nowrap; /* Prevent actions from wrapping */
+        justify-content: flex-end; /* Ensure actions stay to the right */
     }
     .landing-nav .nav-actions .btn {
         padding: 0.4rem 0.8rem;
         font-size: 0.8rem;
     }
+    .landing-nav .logo { /* Make logo slightly smaller on smallest screens */
+        font-size: 1.3rem;
+        gap: 4px;
+        margin-right: 0.5rem;
+    }
+    .landing-nav .logo i { font-size: 1.5rem; }
 
     .hero-section { padding-top: 5rem; gap: 1.5rem; }
     .hero-headline { font-size: 2.5rem; }
@@ -1333,4 +1379,65 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     .features-section, .how-it-works-section, .testimonial-section, .cta-section {
         padding: 3rem 1rem;
     }
-    h
+    h2.section-title { font-size: 2rem; }
+    .section-subtitle { font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+    .feature-card { padding: 1.5rem; }
+    .feature-icon { font-size: 1.8rem; padding: 10px; margin-bottom: 0.8rem; }
+    .feature-card h3 { font-size: 1.3rem; }
+    .feature-card p { font-size: 0.9rem; }
+
+    .step { max-width: 100%; padding: 1.2rem; }
+    .step h3 { font-size: 1.3rem; }
+    .step p { font-size: 0.9rem; }
+
+    .testimonial-section blockquote { font-size: 1.2rem; }
+    .testimonial-section blockquote::before,
+    .testimonial-section blockquote::after { font-size: 2.5rem; }
+    .testimonial-section cite { font-size: 0.9rem; }
+
+    .btn-lg {
+        width: 100%;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    /* Responsive for Static Pages */
+    .static-page-container {
+        margin: 1rem;
+        padding: 1rem;
+        padding-top: 2.5rem;
+    }
+    .static-page-container::before {
+        height: 80px;
+    }
+    .static-page-container h1 {
+        font-size: 1.8rem;
+        gap: 8px;
+    }
+    .static-page-container h1 i {
+        font-size: 1.6rem;
+    }
+    .static-page-container .section-intro {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+    .content-block {
+        padding: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    .content-block h2 {
+        font-size: 1.4rem;
+    }
+    .content-block h3 {
+        font-size: 1.1rem;
+    }
+    .content-block p, .content-block ul {
+        font-size: 0.85rem;
+    }
+    .static-page-container .btn-back,
+    .feedback-actions .btn {
+        width: 100%;
+        font-size: 0.95rem;
+    }
+}
