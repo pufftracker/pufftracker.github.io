@@ -1133,3 +1133,46 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
         margin: 0 20px;
     }
 }
+
+/* Add this to your style.css */
+.dropdown-divider {
+    height: 1px;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-logout-text {
+    width: 100%; /* Make it span full width of dropdown */
+    text-align: left; /* Align text to the left */
+    background: none; /* Remove default button background */
+    border: none; /* Remove default button border */
+    color: var(--text-color); /* Inherit text color */
+    padding: 12px 16px; /* Match dropdown link padding */
+    font-size: 0.95rem; /* Match dropdown link font size */
+    cursor: pointer;
+    display: flex; /* Allow icon and text to align */
+    align-items: center;
+    gap: 10px; /* Space between icon and text */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-logout-text:hover {
+    background-color: rgba(0, 255, 171, 0.15); /* Match dropdown link hover */
+    color: var(--primary-color); /* Match dropdown link hover */
+}
+
+/* Ensure the standard btn-logout is still effective elsewhere if used */
+.btn-logout {
+    background: var(--light-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-logout:hover {
+    background: #444;
+    border-color: var(--text-muted);
+}
