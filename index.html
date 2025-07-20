@@ -3,36 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Puff Tracker - Redirecting...</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #121212; /* Match your app's background */
-            color: #e0e0e0; /* Match your app's text color */
-            font-family: 'Inter', sans-serif;
-            font-size: 1.2rem;
-        }
-    </style>
+    <title>Puff Tracker</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userID = localStorage.getItem('puffTrackerUserID');
+            const token = localStorage.getItem('puffTrackerToken');
+            const nickname = localStorage.getItem('puffTrackerNickname');
+            const email = localStorage.getItem('puffTrackerEmail');
+
+            if (userID && token && nickname && email) {
+                // User is logged in, redirect to dashboard
+                window.location.href = 'dashboard.html'; // Assuming your dashboard is now dashboard.html
+            } else {
+                // User is not logged in, redirect to landing page
+                window.location.href = 'landing.html';
+            }
+        });
+    </script>
 </head>
 <body>
-    <p>Redirecting you to Puff Tracker...</p>
-    <script>
-        // Check if the user is logged in
-        const userID = localStorage.getItem('puffTrackerUserID');
-        const token = localStorage.getItem('puffTrackerToken');
-        const nickname = localStorage.getItem('puffTrackerNickname');
-        const email = localStorage.getItem('puffTrackerEmail');
-
-        if (userID && token && nickname && email) {
-            // User is logged in, redirect to dashboard
-            window.location.replace('dashboard.html');
-        } else {
-            // User is not logged in, redirect to landing page
-            window.location.replace('landing.html');
-        }
-    </script>
+    <p>Loading Puff Tracker...</p>
 </body>
 </html>
