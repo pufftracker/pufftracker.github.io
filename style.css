@@ -599,7 +599,6 @@ h2.section-title {
     align-items: center;
     gap: 0; /* No gap needed if only the 3-dot menu is there */
     flex-shrink: 0; /* Prevent the actions from shrinking */
-    /* Removed margin-left as welcome-section handles spacing now */
 }
 
 
@@ -630,7 +629,7 @@ h2.section-title {
 .form-label { font-weight: 500; }
 .form-control, .form-select {
     background-color: #3a3a3a;
-    border: 1px solid #555;
+    border: 1px solid var(--border-color); /* Corrected from #555 for consistency */
     color: var(--text-color);
     border-radius: 8px;
 }
@@ -765,7 +764,6 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
 .more-options-menu {
     position: relative;
     display: inline-block;
-    /* margin-left: 1rem; This is handled by nav-actions-dashboard gap or margin */
 }
 
 .more-options-btn {
@@ -798,12 +796,12 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     border-radius: 10px;
     border: 1px solid var(--border-color);
     overflow: hidden;
-    padding: 0.5rem 0; /* Add padding to top/bottom of dropdown content */
+    padding: 0.5rem 0;
 }
 
 .more-options-dropdown-content a {
     color: var(--text-color);
-    padding: 10px 16px; /* Adjusted padding */
+    padding: 10px 16px;
     text-decoration: none;
     display: block;
     font-size: 0.95rem;
@@ -834,18 +832,32 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     background: none;
     border: none;
     color: var(--text-color);
-    padding: 10px 16px; /* Adjusted padding to match links */
+    padding: 10px 16px;
     font-size: 0.95rem;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: block; /* Ensure it behaves like a block-level item in flex */
+    /* Removed gap: 10px; and align-items: center; as there's no icon */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn-logout-text:hover {
     background-color: rgba(0, 255, 171, 0.15);
     color: var(--primary-color);
+}
+
+/* Ensure the standard btn-logout is still effective elsewhere if used */
+.btn-logout {
+    background: var(--light-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-logout:hover {
+    background: #444;
+    border-color: var(--text-muted);
 }
 
 /* Toast Notification Styles */
@@ -910,19 +922,18 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
 .static-page-container {
     max-width: 800px;
     margin: 3rem auto;
-    padding: 2.5rem; /* Increased padding */
+    padding: 2.5rem;
     background: var(--card-bg);
     border-radius: 20px;
     border: 1px solid var(--border-color);
     box-shadow: 0 5px 25px rgba(0,0,0,0.3);
     color: var(--text-color);
     line-height: 1.6;
-    animation: fadeInApp 0.6s ease-out; /* Add a subtle fade-in */
+    animation: fadeInApp 0.6s ease-out;
 
-    /* Specific styles for header graphic and icon */
     position: relative;
     overflow: hidden;
-    padding-top: 3.5rem; /* Give space for the top icon/gradient */
+    padding-top: 3.5rem;
 }
 .static-page-container::before {
     content: '';
@@ -931,30 +942,29 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     left: 0;
     width: 100%;
     height: 120px;
-    /* Background color will be overridden by inline style in each HTML file for tint */
     background: linear-gradient(to bottom, rgba(0, 255, 171, 0.1), transparent);
     border-radius: 20px 20px 0 0;
     z-index: 0;
 }
 
 .static-page-container h1 {
-    position: relative; /* Bring H1 above pseudo-element */
+    position: relative;
     z-index: 1;
     font-family: 'Poppins', sans-serif;
     font-size: 3rem;
     margin-top: 0;
     margin-bottom: 1.5rem;
     text-align: center;
-    display: flex; /* For icon alignment */
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
-    color: var(--primary-color); /* Default highlight, overridden by inline style in each HTML */
+    color: var(--primary-color);
 }
 
 .static-page-container h1 i {
     font-size: 2.8rem;
-    color: var(--primary-color); /* Default icon color, overridden by inline style */
+    color: var(--primary-color);
 }
 
 .static-page-container .section-intro {
@@ -977,14 +987,13 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
 }
 .content-block:hover {
     transform: translateY(-5px);
-    /* Box shadow tint is handled by inline style in each HTML for specific pages */
     box-shadow: 0 8px 25px rgba(0, 255, 171, 0.15);
 }
 
 .content-block h2 {
     font-family: 'Poppins', sans-serif;
     font-size: 2rem;
-    color: var(--text-color); /* Default color, can be overridden */
+    color: var(--text-color);
     margin-bottom: 1rem;
     border-bottom: 2px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 0.5rem;
@@ -992,7 +1001,7 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
 .content-block h3 {
     font-family: 'Inter', sans-serif;
     font-size: 1.4rem;
-    color: var(--primary-color); /* Default highlight for sub-subheadings */
+    color: var(--primary-color);
     margin-top: 1.5rem;
     margin-bottom: 0.8rem;
 }
@@ -1014,8 +1023,8 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     margin-bottom: 0.5rem;
 }
 
-.static-page-container .btn-back, /* Adjusted selector for consistency */
-.feedback-actions .btn-primary { /* For feedback page submit button */
+.static-page-container .btn-back,
+.feedback-actions .btn-primary {
     display: block;
     width: fit-content;
     margin: 2rem auto 0;
@@ -1111,17 +1120,17 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     margin-top: 2rem;
 }
 
-.feedback-actions .btn { /* Apply common btn styles to these */
+.feedback-actions .btn {
     padding: 0.8rem 2rem;
     font-weight: 600;
     border-radius: 10px;
     transition: all 0.3s ease;
-    text-align: center; /* Ensure text is centered for full-width on mobile */
-    text-decoration: none; /* Remove underline from anchor tags */
-    display: inline-block; /* Ensure proper button behavior */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
 }
 
-.feedback-actions .btn-secondary { /* Specific secondary button for feedback */
+.feedback-actions .btn-secondary {
     background: transparent;
     border: 1px solid var(--border-color);
     color: var(--text-color);
@@ -1324,65 +1333,4 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     .features-section, .how-it-works-section, .testimonial-section, .cta-section {
         padding: 3rem 1rem;
     }
-    h2.section-title { font-size: 2rem; }
-    .section-subtitle { font-size: 0.9rem; margin-bottom: 1.5rem; }
-
-    .feature-card { padding: 1.5rem; }
-    .feature-icon { font-size: 1.8rem; padding: 10px; margin-bottom: 0.8rem; }
-    .feature-card h3 { font-size: 1.3rem; }
-    .feature-card p { font-size: 0.9rem; }
-
-    .step { max-width: 100%; padding: 1.2rem; }
-    .step h3 { font-size: 1.3rem; }
-    .step p { font-size: 0.9rem; }
-
-    .testimonial-section blockquote { font-size: 1.2rem; }
-    .testimonial-section blockquote::before,
-    .testimonial-section blockquote::after { font-size: 2.5rem; }
-    .testimonial-section cite { font-size: 0.9rem; }
-
-    .btn-lg {
-        width: 100%;
-        padding: 0.8rem 1.5rem;
-        font-size: 1rem;
-    }
-
-    /* Responsive for Static Pages */
-    .static-page-container {
-        margin: 1rem;
-        padding: 1rem;
-        padding-top: 2.5rem;
-    }
-    .static-page-container::before {
-        height: 80px;
-    }
-    .static-page-container h1 {
-        font-size: 1.8rem;
-        gap: 8px;
-    }
-    .static-page-container h1 i {
-        font-size: 1.6rem;
-    }
-    .static-page-container .section-intro {
-        font-size: 0.9rem;
-        margin-bottom: 1.5rem;
-    }
-    .content-block {
-        padding: 1.2rem;
-        margin-bottom: 1.5rem;
-    }
-    .content-block h2 {
-        font-size: 1.4rem;
-    }
-    .content-block h3 {
-        font-size: 1.1rem;
-    }
-    .content-block p, .content-block ul {
-        font-size: 0.85rem;
-    }
-    .static-page-container .btn-back,
-    .feedback-actions .btn {
-        width: 100%;
-        font-size: 0.95rem;
-    }
-}
+    h
