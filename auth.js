@@ -25,7 +25,7 @@ if (loginForm) {
                     localStorage.setItem('puffTrackerToken', response.token);
                     localStorage.setItem('puffTrackerNickname', response.nickname);
                     localStorage.setItem('puffTrackerEmail', response.email);
-                    window.location.href = 'index.html';
+                    window.location.href = 'dashboard.html';
                 } else {
                     showAlert(response.message, 'danger');
                 }
