@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap'); /* Added Poppins for headlines */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap');
 
 :root {
     --primary-color: #00ffab;
@@ -151,14 +151,14 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8rem 2rem 2rem; /* Adjusted top padding for fixed header */
+    padding: 8rem 2rem 2rem;
     gap: 3rem;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap;
 }
 .hero-content { 
     max-width: 55%; 
-    flex: 1 1 55%; /* Flexible width for content */
-    min-width: 300px; /* Minimum width before wrapping */
+    flex: 1 1 55%;
+    min-width: 300px;
 }
 .hero-headline { 
     font-family: 'Poppins', sans-serif;
@@ -177,13 +177,13 @@ body::before {
 }
 
 .hero-visual {
-    flex: 1 1 40%; /* Flexible width for visual */
-    min-width: 300px; /* Minimum width before wrapping */
+    flex: 1 1 40%;
+    min-width: 300px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted for more cards */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
     padding: 1rem;
-    background: rgba(30, 30, 30, 0.5); /* Semi-transparent background for the whole visual area */
+    background: rgba(30, 30, 30, 0.5);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-radius: 25px;
@@ -209,11 +209,11 @@ body::before {
 .visual-card.card-5 { grid-column: span 1; }
 .visual-card.card-6 { grid-column: span 1; }
 .visual-card.card-3 { 
-    grid-column: 1 / -1; /* Daily Trend Chart always spans full width */
+    grid-column: 1 / -1;
     min-height: 180px; 
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Ensure Chart.js doesn't overflow */
+    overflow: hidden;
 }
 
 .card-header {
@@ -229,12 +229,12 @@ body::before {
 }
 .card-chart {
     width: 100%;
-    height: 100px; /* Adjust height for the chart area */
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.card-chart canvas { /* Style the Chart.js canvas */
+.card-chart canvas {
     max-width: 100%;
     max-height: 100%;
 }
@@ -243,7 +243,7 @@ body::before {
 .features-section, .how-it-works-section, .testimonial-section, .cta-section {
     padding: 6rem 2rem;
     text-align: center;
-    position: relative; /* For scroll animations */
+    position: relative;
 }
 h2.section-title { 
     font-family: 'Poppins', sans-serif;
@@ -308,59 +308,57 @@ h2.section-title {
     border-radius: 25px; 
     margin: 0 auto;
     max-width: 1300px;
-    position: relative; /* Needed for absolute positioning of arrows/dots */
+    position: relative;
 }
 
 /* Desktop Grid View */
 .steps-grid-view {
-    display: flex; /* Default to flex for side-by-side */
+    display: flex;
     justify-content: center; 
     align-items: flex-start; 
     gap: 2rem; 
-    flex-wrap: nowrap; /* Prevent wrapping on desktop */
-    padding: 2rem; /* Added padding to steps-grid-view */
+    flex-wrap: nowrap;
+    padding: 2rem;
 }
-/* Style for arrows in desktop grid view */
 .steps-grid-view .step-arrow {
     font-size: 2.5rem; 
     color: var(--primary-color); 
-    margin-top: 50px; /* Aligns arrows with steps */
+    margin-top: 50px;
     flex-shrink: 0;
-    display: flex; /* Show arrows for desktop grid */
+    display: flex;
     align-items: center;
     justify-content: center;
 }
-.steps-grid-view .step { /* Ensure steps flex properly in desktop grid */
-    flex: 1; /* Allow steps to grow and shrink evenly */
-    max-width: 300px; /* Optional: limit max width for each step */
+.steps-grid-view .step {
+    flex: 1;
+    max-width: 300px;
 }
 
 
 /* Mobile Slider View - Hidden by default */
 .steps-slider-view {
-    display: none; /* Hidden by default for desktop */
+    display: none;
     align-items: center;
     justify-content: center;
     width: 100%;
-    position: relative; /* For arrows */
-    overflow: hidden; /* Hide overflow when slides transition */
-    padding-bottom: 3rem; /* Space for pagination dots */
-    padding-top: 2rem; /* Added top padding for slider view */
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 3rem;
+    padding-top: 2rem;
 }
 
 .slides-wrapper {
     display: flex;
-    transition: transform 0.5s ease-in-out; /* Smooth slide transition */
+    transition: transform 0.5s ease-in-out;
     width: 100%; 
 }
 
 /* Common Step Styling (shared by both grid and slider views) */
 .step { 
-    /* min-width and flex-shrink are critical for slider */
-    min-width: 280px; /* A good base width for a single slide */
-    flex-shrink: 0; /* Prevent steps from shrinking when not in view */
-    width: 100%; /* For slider, each step takes full width of slides-wrapper */
-    box-sizing: border-box; /* Include padding in width */
+    min-width: 280px;
+    flex-shrink: 0;
+    width: 100%;
+    box-sizing: border-box;
     text-align: center; 
     background: rgba(30, 30, 30, 0.9);
     border: 1px solid var(--border-color);
@@ -400,7 +398,7 @@ h2.section-title {
 
 
 /* Slider Arrows */
-.steps-slider-view .slider-arrow { /* Target arrows specifically within slider view */
+.steps-slider-view .slider-arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -413,7 +411,7 @@ h2.section-title {
     font-size: 1.5rem;
     border-radius: 8px;
     transition: background-color 0.3s ease;
-    display: none; /* Hidden by default (desktop) */
+    display: none;
 }
 .steps-slider-view .slider-arrow:hover {
     background-color: var(--primary-color);
@@ -423,14 +421,14 @@ h2.section-title {
 .steps-slider-view .next-arrow { right: 1rem; }
 
 /* Pagination Dots */
-.steps-slider-view .slider-pagination { /* Target pagination specifically within slider view */
+.steps-slider-view .slider-pagination {
     position: absolute;
     bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 0.5rem;
-    display: none; /* Hidden by default (desktop) */
+    display: none;
 }
 .steps-slider-view .dot {
     width: 10px;
@@ -548,18 +546,67 @@ h2.section-title {
 .alert-danger { background-color: rgba(255, 71, 87, 0.1); color: #ff4757; }
 
 
-/* --- Main App Styles (retained existing for completeness, but not modified for landing page) --- */
+/* --- Main App Styles --- */
 .app-container { padding-bottom: 80px; }
 .main-content { padding: 1rem; max-width: 1200px; margin: 0 auto; }
 .content-section { display: none; }
 .content-section.active { display: block; animation: fadeInApp 0.5s ease-in-out; }
 @keyframes fadeInApp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Redesigned Header for Dashboard */
+.top-nav-dashboard {
+    display: flex;
+    justify-content: space-between; /* Pushes welcome-section to left, nav-actions-dashboard to right */
+    align-items: center;
+    padding: 1rem; /* Adjust as needed for spacing */
+    background-color: var(--dark-bg); /* Match app background */
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    /* This ensures it always tries to lay out in a single row */
+}
+
+.welcome-section {
+    /* Allow the welcome section to shrink if needed */
+    flex-grow: 1; /* Allow it to take available space */
+    flex-shrink: 1; /* Allow it to shrink */
+    min-width: 0; /* Important for flex items with text that might not wrap */
+    margin-right: 1rem; /* Space between welcome text and actions */
+}
+
+#welcome-message {
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin: 0;
+    white-space: nowrap; /* Prevent welcome message from wrapping */
+    overflow: hidden; /* Hide overflow if it shrinks too much */
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
+}
+#welcome-message span {
+    color: var(--primary-color);
+}
+.date-display {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    white-space: nowrap; /* Prevent date from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nav-actions-dashboard {
+    display: flex;
+    align-items: center;
+    gap: 0; /* No gap needed if only the 3-dot menu is there */
+    flex-shrink: 0; /* Prevent the actions from shrinking */
+    /* Removed margin-left as welcome-section handles spacing now */
+}
+
+
 .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; }
-#welcome-message { font-weight: 700; font-size: 1.8rem; margin: 0; }
-#welcome-message span { color: var(--primary-color); }
-.date-display { color: var(--text-muted); font-size: 1.2rem; }
-.btn-logout { background: var(--light-bg); color: var(--text-color); border: 1px solid var(--border-color); padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
-.btn-logout:hover { background: #444; border-color: var(--text-muted); }
+/* The original .header is still used in Goals and History sections, so keep it */
+
+
 .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
 .bento-box { background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 20px; padding: 1.25rem; border: 1px solid var(--border-color); display: flex; flex-direction: column; transition: all 0.3s ease; }
 .bento-box:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(0, 255, 171, 0.1); }
@@ -575,7 +622,6 @@ h2.section-title {
 .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(18, 18, 18, 0.8); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid var(--border-color); z-index: 1000; }
 .bottom-nav .nav-item { color: var(--text-muted); text-align: center; font-size: 0.75rem; background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; transition: color 0.3s; }
 .bottom-nav .nav-item.active, .bottom-nav .nav-item:hover { color: var(--primary-color); }
-.bottom-nav .nav-item i { font-size: 1.5rem; }
 .bottom-nav .log-button i { font-size: 2.5rem; color: var(--primary-color); margin-top: -15px; transition: transform 0.3s; }
 .bottom-nav .log-button:hover i { transform: scale(1.1); }
 .modal-content { background-color: #2a2a2a; color: var(--text-color); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; }
@@ -603,12 +649,11 @@ h2.section-title {
 .number-input {
     display: flex;
     align-items: center;
-    gap: 0.5rem; /* Adds space between buttons and input */
+    gap: 0.5rem;
 }
 .number-input .form-control {
-    text-align: center; /* Centers the number */
+    text-align: center;
 }
-/* Remove browser default spinners for number input */
 .number-input input[type=number]::-webkit-inner-spin-button, 
 .number-input input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
@@ -626,8 +671,6 @@ h2.section-title {
 .table-responsive { background-color: #2a2a2a; border-radius: 15px; padding: 0.5rem; }
 thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
 
-/* Add these new styles to your existing style.css */
-
 /* Goal Specific Styles */
 #activeGoalsContainer {
     display: grid;
@@ -637,7 +680,7 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
 }
 
 #activeGoalsContainer .bento-box .stat-icon {
-    font-size: 1.8rem; /* Slightly smaller icon for goals */
+    font-size: 1.8rem;
     margin-bottom: 5px;
 }
 
@@ -652,11 +695,11 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     margin-bottom: 5px;
 }
 
-.text-info { /* Re-using bootstrap's info color for active status/progress */
+.text-info {
     color: #0dcaf0 !important;
 }
 
-.text-danger { /* For overdue goals */
+.text-danger {
     color: #dc3545 !important;
 }
 
@@ -671,7 +714,7 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
 }
 
 .badge.bg-info {
-    background-color: rgba(13, 202, 240, 0.2); /* Lighter background for info badge */
+    background-color: rgba(13, 202, 240, 0.2);
     color: #0dcaf0;
 }
 
@@ -685,7 +728,7 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     color: #dc3545;
 }
 
-.badge.bg-secondary { /* Existing, just ensure it works */
+.badge.bg-secondary {
     background-color: rgba(108, 117, 125, 0.2);
     color: #ffffff;
 }
@@ -697,50 +740,410 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
 
 /* Specific styling for Analytics section charts if needed */
 #analytics .chart-full-width .chart-container {
-    min-height: 280px; /* Adjust height for these charts if needed */
+    min-height: 280px;
 }
 
 /* Adjustments for bottom nav items for new sections */
 .bottom-nav .nav-item span {
-    display: block; /* Ensure span takes full width under icon */
+    display: block;
     font-size: 0.75rem;
     margin-top: 4px;
 }
 
 /* Adjust the log button's text visibility */
 .bottom-nav .log-button span {
-    visibility: hidden; /* Hide the "Log" text */
+    visibility: hidden;
     height: 0;
     margin: 0;
     padding: 0;
-    display: block; /* Ensure it still occupies space for layout */
+    display: block;
     line-height: 0;
-    font-size: 0; /* Make sure it doesn't affect icon size */
+    font-size: 0;
 }
 
-/* Media query adjustments for mobile navigation */
-@media (max-width: 576px) {
-    .bottom-nav .nav-item {
-        padding: 5px 0; /* Adjust padding for smaller screens */
-    }
-    .bottom-nav .nav-item i {
-        font-size: 1.2rem; /* Slightly smaller icons for regular items */
-    }
-    .bottom-nav .log-button i {
-        font-size: 2rem; /* Keep log button icon larger */
-        margin-top: -10px; /* Adjust if needed */
-    }
+/* --- Top Menu Bar for Landing and Dashboard (including 3-dot menu) --- */
+.more-options-menu {
+    position: relative;
+    display: inline-block;
+    /* margin-left: 1rem; This is handled by nav-actions-dashboard gap or margin */
 }
+
+.more-options-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.more-options-btn:hover,
+.more-options-btn:focus {
+    color: var(--primary-color);
+    background-color: rgba(0, 255, 171, 0.1);
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 255, 171, 0.2);
+}
+
+.more-options-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--light-bg);
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    z-index: 1001;
+    right: 0;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    padding: 0.5rem 0; /* Add padding to top/bottom of dropdown content */
+}
+
+.more-options-dropdown-content a {
+    color: var(--text-color);
+    padding: 10px 16px; /* Adjusted padding */
+    text-decoration: none;
+    display: block;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.more-options-dropdown-content a:hover {
+    background-color: rgba(0, 255, 171, 0.15);
+    color: var(--primary-color);
+}
+
+/* Show the dropdown menu on hover or focus of the button/menu */
+.more-options-menu:hover .more-options-dropdown-content {
+    display: block;
+}
+
+/* Styles for dropdown divider and logout button within dropdown */
+.dropdown-divider {
+    height: 1px;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-logout-text {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    padding: 10px 16px; /* Adjusted padding to match links */
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-logout-text:hover {
+    background-color: rgba(0, 255, 171, 0.15);
+    color: var(--primary-color);
+}
+
+/* Toast Notification Styles */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.toast-notification {
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    min-width: 250px;
+    text-align: left;
+    pointer-events: all;
+}
+
+.toast-notification.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.toast-notification i {
+    font-size: 1.2rem;
+}
+
+.toast-success {
+    border-left: 5px solid var(--primary-color);
+}
+
+.toast-success i {
+    color: var(--primary-color);
+}
+
+.toast-danger {
+    border-left: 5px solid #ff4757;
+}
+
+.toast-danger i {
+    color: #ff4757;
+}
+
+
+/* --- Styles for Static Content Pages (About Us, Privacy, Terms, Feedback) --- */
+.static-page-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem; /* Increased padding */
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+    color: var(--text-color);
+    line-height: 1.6;
+    animation: fadeInApp 0.6s ease-out; /* Add a subtle fade-in */
+
+    /* Specific styles for header graphic and icon */
+    position: relative;
+    overflow: hidden;
+    padding-top: 3.5rem; /* Give space for the top icon/gradient */
+}
+.static-page-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    /* Background color will be overridden by inline style in each HTML file for tint */
+    background: linear-gradient(to bottom, rgba(0, 255, 171, 0.1), transparent);
+    border-radius: 20px 20px 0 0;
+    z-index: 0;
+}
+
+.static-page-container h1 {
+    position: relative; /* Bring H1 above pseudo-element */
+    z-index: 1;
+    font-family: 'Poppins', sans-serif;
+    font-size: 3rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    display: flex; /* For icon alignment */
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: var(--primary-color); /* Default highlight, overridden by inline style in each HTML */
+}
+
+.static-page-container h1 i {
+    font-size: 2.8rem;
+    color: var(--primary-color); /* Default icon color, overridden by inline style */
+}
+
+.static-page-container .section-intro {
+    text-align: center;
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content-block {
+    background: var(--light-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+.content-block:hover {
+    transform: translateY(-5px);
+    /* Box shadow tint is handled by inline style in each HTML for specific pages */
+    box-shadow: 0 8px 25px rgba(0, 255, 171, 0.15);
+}
+
+.content-block h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    color: var(--text-color); /* Default color, can be overridden */
+    margin-bottom: 1rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+.content-block h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.4rem;
+    color: var(--primary-color); /* Default highlight for sub-subheadings */
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.content-block p, .content-block ul {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+.content-block p:last-child, .content-block ul:last-child {
+    margin-bottom: 0;
+}
+.content-block ul {
+    list-style-type: disc;
+    padding-left: 25px;
+}
+.content-block ul li {
+    margin-bottom: 0.5rem;
+}
+
+.static-page-container .btn-back, /* Adjusted selector for consistency */
+.feedback-actions .btn-primary { /* For feedback page submit button */
+    display: block;
+    width: fit-content;
+    margin: 2rem auto 0;
+    padding: 0.8rem 2.5rem;
+    font-size: 1.05rem;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    background-color: var(--primary-color);
+    color: var(--dark-bg);
+    border: 1px solid var(--primary-color);
+}
+.static-page-container .btn-back:hover,
+.feedback-actions .btn-primary:hover {
+    background-color: #fff;
+    color: var(--dark-bg);
+    transform: translateY(-3px);
+    box-shadow: var(--hover-shadow);
+    border-color: #fff;
+}
+
+/* Feedback Page Specific Styles */
+.feedback-container {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+    color: var(--text-color);
+    line-height: 1.6;
+    animation: fadeInApp 0.6s ease-out;
+}
+
+.feedback-container h1 {
+    font-family: 'Poppins', sans-serif;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.feedback-container h1 i {
+    font-size: 2.2rem;
+}
+
+.feedback-container p.subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.feedback-form .form-label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.feedback-form .form-control,
+.feedback-form .form-select {
+    background-color: var(--light-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feedback-form .form-control:focus,
+.feedback-form .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(0, 255, 171, 0.25);
+    background-color: #3a3a3a;
+    color: var(--text-color);
+}
+
+.feedback-form textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.feedback-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.feedback-actions .btn { /* Apply common btn styles to these */
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    text-align: center; /* Ensure text is centered for full-width on mobile */
+    text-decoration: none; /* Remove underline from anchor tags */
+    display: inline-block; /* Ensure proper button behavior */
+}
+
+.feedback-actions .btn-secondary { /* Specific secondary button for feedback */
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.feedback-actions .btn-secondary:hover {
+    background-color: var(--text-color);
+    color: var(--dark-bg);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+
 
 /* Media Queries for Responsiveness */
-@media (max-width: 992px) { /* Tablets and larger phones */
-    .nav-links { display: none; } /* Hide desktop nav links on smaller screens */
+@media (max-width: 992px) {
+    .nav-links { display: none; }
 
-    .landing-nav .nav-actions { /* Align buttons in header */
+    .landing-nav .nav-actions {
         display: flex;
         gap: 0.8rem;
     }
-    .landing-nav .nav-actions .btn { /* Smaller buttons for header on tablets */
+    .landing-nav .nav-actions .btn {
         padding: 0.6rem 1.2rem;
         font-size: 0.9rem;
     }
@@ -748,22 +1151,21 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     .hero-section { 
         flex-direction: column; 
         text-align: center; 
-        padding-top: 6rem; /* Adjust padding for fixed header */
+        padding-top: 6rem;
         gap: 2rem;
     }
-    .hero-content { max-width: 100%; flex: none; } /* Full width for content */
+    .hero-content { max-width: 100%; flex: none; }
     .hero-headline { font-size: 3rem; }
     .hero-subheadline { font-size: 1.1rem; margin: 1rem 0 2rem; }
-    .hero-content .btn-lg { /* Main CTA button on hero section */
-        padding: 0.9rem 0.1rem; /* Adjusted based on your feedback */
+    .hero-content .btn-lg {
+        padding: 0.9rem 0.1rem;
         font-size: 1.05rem;
     }
 
-
     .hero-visual {
         max-width: 100%; 
-        flex: none; /* Full width for visual */
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adaptive 2 or 3 columns */
+        flex: none;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         padding: 1.5rem;
     }
     .visual-card.card-1, 
@@ -771,98 +1173,135 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     .visual-card.card-4, 
     .visual-card.card-5, 
     .visual-card.card-6 {
-        grid-column: span 1; /* Ensure these cards take 1 column */
+        grid-column: span 1;
     }
     .visual-card.card-3 { 
-        grid-column: 1 / -1; /* Daily trend spans full width */
-        min-height: 150px; /* Adjust chart card height */
+        grid-column: 1 / -1;
+        min-height: 150px;
     }
     .card-chart canvas { 
-        height: 120px !important; /* Important to override Chart.js default aspect ratio if needed */
+        height: 120px !important;
     }
 
-
     .features-section, .how-it-works-section, .testimonial-section, .cta-section {
-        padding: 4rem 1.5rem; /* Adjust section padding */
+        padding: 4rem 1.5rem;
     }
     h2.section-title { font-size: 2.2rem; }
     .section-subtitle { font-size: 1rem; margin: 0.8rem auto 2rem; }
 
-    .features-grid { grid-template-columns: 1fr; gap: 1.5rem; } /* Single column for features */
+    .features-grid { grid-template-columns: 1fr; gap: 1.5rem; }
     .feature-card { padding: 2rem; }
     .feature-icon { font-size: 2rem; padding: 12px; margin-bottom: 1rem; }
     .feature-card h3 { font-size: 1.4rem; }
 
-    /* How It Works desktop grid hidden, slider enabled */
-    .steps-grid-view {
-        display: none; /* Hide the desktop grid layout */
-    }
+    .steps-grid-view { display: none; }
     .steps-slider-view {
-        display: flex; /* Show the slider container */
-        flex-direction: row; /* Ensure items are in a row */
+        display: flex;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
     }
     .steps-slider-view .slider-arrow,
     .steps-slider-view .slider-pagination {
-        display: flex; /* Show slider navigation */
+        display: flex;
     }
-    /* Common step styling for slider */
     .steps-slider-view .step {
-        max-width: none; /* Remove max-width constraint for slider */
-        width: 100%; /* Ensure each step takes full width of slider view */
-        flex-shrink: 0; /* Prevent steps from shrinking */
+        max-width: none;
+        width: 100%;
+        flex-shrink: 0;
     }
-
 
     .testimonial-section blockquote { font-size: 1.4rem; padding: 0 10px; }
     .testimonial-section blockquote::before,
     .testimonial-section blockquote::after { font-size: 3rem; top: -5px; }
     .testimonial-section cite { font-size: 1.1rem; }
 
-    .cta-section .btn-lg { /* CTA button at the bottom of the page */
-        width: 100%; /* Make it full width */
-        padding: 0.9rem 0.1rem; /* Adjusted based on your feedback */
+    .cta-section .btn-lg {
+        width: 100%;
+        padding: 0.9rem 0.1rem;
         font-size: 1.05rem;
+    }
+
+    /* Responsive for Static Pages */
+    .static-page-container {
+        margin: 1.5rem auto;
+        padding: 1.5rem;
+        padding-top: 3rem;
+    }
+    .static-page-container::before {
+        height: 100px;
+    }
+    .static-page-container h1 {
+        font-size: 2.2rem;
+        gap: 10px;
+    }
+    .static-page-container h1 i {
+        font-size: 2rem;
+    }
+    .static-page-container .section-intro {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+    .content-block {
+        padding: 1.5rem;
+    }
+    .content-block h2 {
+        font-size: 1.6rem;
+    }
+    .content-block h3 {
+        font-size: 1.2rem;
+    }
+    .content-block p, .content-block ul {
+        font-size: 0.95rem;
+    }
+    .static-page-container .btn-back,
+    .feedback-actions .btn {
+        padding: 0.7rem 2rem;
+        font-size: 1rem;
+    }
+
+    /* Responsive for Toast */
+    .toast-notification {
+        width: calc(100% - 40px);
+        margin: 0 20px;
     }
 }
 
-@media (max-width: 768px) { /* Standard smartphone landscape / small tablets */
+@media (max-width: 768px) {
     .landing-nav .nav-actions {
-        gap: 0.6rem; /* Slightly reduce gap between buttons */
+        gap: 0.6rem;
     }
     .landing-nav .nav-actions .btn {
-        padding: 0.5rem 1rem; /* Smaller padding for header buttons */
-        font-size: 0.85rem; /* Smaller font size */
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
     }
 
     .hero-visual {
-        grid-template-columns: repeat(2, minmax(130px, 1fr)); /* Force 2 columns for stat cards, slightly smaller min-width */
-        gap: 0.8rem; /* Slightly reduced gap */
+        grid-template-columns: repeat(2, minmax(130px, 1fr));
+        gap: 0.8rem;
         padding: 1rem;
     }
     .visual-card {
-        min-height: 100px; /* Slightly reduced min-height for cards */
-        padding: 0.9rem 1rem; /* Adjust padding */
+        min-height: 100px;
+        padding: 0.9rem 1rem;
     }
     .card-value { font-size: 2.2rem; }
     .card-header { font-size: 0.85rem; }
 }
 
-@media (max-width: 576px) { /* Small smartphones (portrait) */
-    .container { padding: 0 1rem; } /* Smaller container padding on very small screens */
+@media (max-width: 576px) {
+    .container { padding: 0 1rem; }
     .landing-header { padding: 0.5rem 0; }
     
     .landing-nav .nav-actions {
-        gap: 0.4rem; /* Even smaller gap for very small screens */
-        flex-wrap: wrap; /* Allow buttons to wrap if necessary */
-        justify-content: center; /* Center buttons if they wrap */
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     .landing-nav .nav-actions .btn {
-        padding: 0.4rem 0.8rem; /* Even smaller padding */
-        font-size: 0.8rem; /* Even smaller font size */
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
     }
-
 
     .hero-section { padding-top: 5rem; gap: 1.5rem; }
     .hero-headline { font-size: 2.5rem; }
@@ -870,17 +1309,17 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
 
     .hero-visual { 
         padding: 1rem; 
-        grid-template-columns: 1fr; /* Force single column for all cards */
+        grid-template-columns: 1fr;
         gap: 1rem;
     }
     .visual-card { 
         min-height: 100px; 
-        grid-column: 1 / -1 !important; /* Force all cards to span full width */
-        padding: 1rem 1.2rem; /* Restore slightly larger padding when single column */
+        grid-column: 1 / -1 !important;
+        padding: 1rem 1.2rem;
     }
-    .card-value { font-size: 2.5rem; } /* Revert to larger size for single column */
-    .card-header { font-size: 0.9rem; } /* Revert to larger size */
-    .card-chart { height: 100px; } /* Restore default chart height */
+    .card-value { font-size: 2.5rem; }
+    .card-header { font-size: 0.9rem; }
+    .card-chart { height: 100px; }
 
     .features-section, .how-it-works-section, .testimonial-section, .cta-section {
         padding: 3rem 1rem;
@@ -902,277 +1341,48 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     .testimonial-section blockquote::after { font-size: 2.5rem; }
     .testimonial-section cite { font-size: 0.9rem; }
 
-    .btn-lg { /* Ensure main CTA buttons are full width and well-sized */
+    .btn-lg {
         width: 100%;
         padding: 0.8rem 1.5rem;
         font-size: 1rem;
     }
-}
-/* Top Menu Bar for Landing and Dashboard */
-.more-options-menu {
-    position: relative;
-    display: inline-block;
-    margin-left: 1rem; /* Space from other nav items/buttons */
-}
 
-.more-options-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-muted); /* Color of the 3 dots icon */
-    font-size: 1.5rem; /* Size of the 3 dots icon */
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-.more-options-btn:hover,
-.more-options-btn:focus {
-    color: var(--primary-color);
-    background-color: rgba(0, 255, 171, 0.1);
-    outline: none;
-    box-shadow: 0 0 10px rgba(0, 255, 171, 0.2);
-}
-
-.more-options-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: var(--light-bg);
-    min-width: 180px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
-    z-index: 1001; /* Ensure it's above other elements */
-    right: 0; /* Align to the right of the button */
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    overflow: hidden; /* For border-radius on children */
-}
-
-.more-options-dropdown-content a {
-    color: var(--text-color);
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    font-size: 0.95rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.more-options-dropdown-content a:hover {
-    background-color: rgba(0, 255, 171, 0.15);
-    color: var(--primary-color);
-}
-
-/* Show the dropdown menu on hover or focus of the button/menu */
-.more-options-menu:hover .more-options-dropdown-content {
-    display: block;
-}
-
-/* For dashboard, adjust header layout to accommodate new menu */
-.top-nav-dashboard {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background-color: var(--dark-bg); /* Match app background */
-    border-bottom: 1px solid var(--border-color);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.nav-actions-dashboard {
-    display: flex;
-    align-items: center;
-    gap: 1rem; /* Space between logout button and new menu */
-}
-
-/* Styles for static content pages (About Us, Privacy, Terms, Feedback) */
-.static-page-container {
-    max-width: 800px;
-    margin: 3rem auto;
-    padding: 2rem;
-    background: var(--card-bg);
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-    color: var(--text-color);
-    line-height: 1.6;
-}
-
-.static-page-container h1 {
-    font-family: 'Poppins', sans-serif;
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    font-size: 2.5rem;
-    text-align: center;
-}
-
-.static-page-container h2 {
-    color: var(--text-color);
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
-}
-
-.static-page-container p, 
-.static-page-container ul {
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-    font-size: 1rem;
-}
-
-.static-page-container ul {
-    list-style-type: disc;
-    padding-left: 20px;
-}
-
-.static-page-container ul li {
-    margin-bottom: 0.5rem;
-}
-
-/* Adjustments for the back button on static pages */
-.static-page-container .btn {
-    display: inline-block;
-    margin-top: 2rem;
-    text-align: center;
-}
-
-/* Media queries for responsiveness */
-@media (max-width: 768px) {
-    .top-nav-dashboard {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 0.8rem 1rem;
-        gap: 0.5rem;
-    }
-
-    .nav-actions-dashboard {
-        width: 100%;
-        justify-content: space-between;
-        margin-top: 0.5rem;
-    }
-
+    /* Responsive for Static Pages */
     .static-page-container {
-        margin: 1.5rem auto;
-        padding: 1.5rem;
+        margin: 1rem;
+        padding: 1rem;
+        padding-top: 2.5rem;
     }
-
+    .static-page-container::before {
+        height: 80px;
+    }
     .static-page-container h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        gap: 8px;
     }
-
-    .static-page-container h2 {
-        font-size: 1.5rem;
+    .static-page-container h1 i {
+        font-size: 1.6rem;
     }
-
-    .static-page-container p,
-    .static-page-container ul {
+    .static-page-container .section-intro {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+    .content-block {
+        padding: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    .content-block h2 {
+        font-size: 1.4rem;
+    }
+    .content-block h3 {
+        font-size: 1.1rem;
+    }
+    .content-block p, .content-block ul {
+        font-size: 0.85rem;
+    }
+    .static-page-container .btn-back,
+    .feedback-actions .btn {
+        width: 100%;
         font-size: 0.95rem;
     }
-}
-/* Toast Notification Styles */
-#toast-container {
-    position: fixed;
-    bottom: 20px; /* Adjust as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999; /* Ensure it's on top of everything */
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    pointer-events: none; /* Allows clicks to pass through */
-}
-
-.toast-notification {
-    background-color: var(--light-bg); /* Dark background */
-    color: var(--text-color);
-    padding: 12px 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
-    min-width: 250px;
-    text-align: left;
-    pointer-events: all; /* Re-enable pointer events for the toast itself */
-}
-
-.toast-notification.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.toast-notification i {
-    font-size: 1.2rem;
-}
-
-.toast-success {
-    border-left: 5px solid var(--primary-color); /* Greenish border for success */
-}
-
-.toast-success i {
-    color: var(--primary-color);
-}
-
-.toast-danger {
-    border-left: 5px solid #ff4757; /* Red border for danger */
-}
-
-.toast-danger i {
-    color: #ff4757;
-}
-
-/* Optional: Adjust for mobile if toasts appear too wide */
-@media (max-width: 576px) {
-    .toast-notification {
-        width: calc(100% - 40px); /* Full width minus padding */
-        margin: 0 20px;
-    }
-}
-
-/* Add this to your style.css */
-.dropdown-divider {
-    height: 1px;
-    margin: 0.5rem 0;
-    overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.btn-logout-text {
-    width: 100%; /* Make it span full width of dropdown */
-    text-align: left; /* Align text to the left */
-    background: none; /* Remove default button background */
-    border: none; /* Remove default button border */
-    color: var(--text-color); /* Inherit text color */
-    padding: 12px 16px; /* Match dropdown link padding */
-    font-size: 0.95rem; /* Match dropdown link font size */
-    cursor: pointer;
-    display: flex; /* Allow icon and text to align */
-    align-items: center;
-    gap: 10px; /* Space between icon and text */
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.btn-logout-text:hover {
-    background-color: rgba(0, 255, 171, 0.15); /* Match dropdown link hover */
-    color: var(--primary-color); /* Match dropdown link hover */
-}
-
-/* Ensure the standard btn-logout is still effective elsewhere if used */
-.btn-logout {
-    background: var(--light-bg);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-.btn-logout:hover {
-    background: #444;
-    border-color: var(--text-muted);
 }
