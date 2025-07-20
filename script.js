@@ -217,105 +217,8 @@ function animateNumber(element, start, end, duration) {
     requestAnimationFrame(step);
 }
 
-// Stats Carousel Logic (New for Dashboard)
-let currentCarouselSlide = 0;
-let carouselInterval;
-
-function initStatsCarousel() {
-    const carouselTrack = document.querySelector('.mobile-main-stats-carousel .carousel-track');
-    const carouselSlides = document.querySelectorAll('.mobile-main-stats-carousel .carousel-slide');
-    const carouselDots = document.querySelectorAll('.mobile-main-stats-carousel .carousel-nav .dot');
-
-    // Only initialize if elements exist (i.e., on mobile view where carousel is displayed)
-    if (!carouselTrack || carouselSlides.length === 0 || window.innerWidth > 768) { // Added condition to disable on desktop
-        // If on desktop or elements not found, ensure track is reset to default
-        if(carouselTrack) carouselTrack.style.transform = `translateX(0px)`;
-        if(carouselDots) carouselDots.forEach(dot => dot.classList.remove('active'));
-        clearInterval(carouselInterval);
-        return;
-    }
-
-
-    const updateCarousel = () => {
-        const slideWidth = carouselSlides[0].offsetWidth;
-        carouselTrack.style.transform = `translateX(${-currentCarouselSlide * slideWidth}px)`;
-
-        carouselDots.forEach((dot, index) => {
-            if (index === currentCarouselSlide) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-    };
-
-    const showNextSlide = () => {
-        currentCarouselSlide = (currentCarouselSlide + 1) % carouselSlides.length;
-        updateCarousel();
-    };
-
-    const startCarouselAutoSlide = () => {
-        clearInterval(carouselInterval); // Clear existing interval first
-        carouselInterval = setInterval(showNextSlide, 5000);
-    };
-
-    const stopCarouselAutoSlide = () => {
-        clearInterval(carouselInterval);
-    };
-
-    // Manual navigation via dots
-    carouselDots.forEach((dot) => {
-        dot.addEventListener('click', (e) => {
-            currentCarouselSlide = parseInt(e.target.dataset.slide);
-            updateCarousel();
-            stopCarouselAutoSlide();
-            startCarouselAutoSlide(); // Restart timer after manual interaction
-        });
-    });
-
-    // Handle touch/swipe
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    carouselTrack.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-        stopCarouselAutoSlide();
-    });
-
-    carouselTrack.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].clientX;
-        handleSwipe();
-        startCarouselAutoSlide(); // Restart timer after swipe
-    });
-
-    function handleSwipe() {
-        const minSwipeDistance = 50;
-        if (touchEndX < touchStartX - minSwipeDistance) {
-            currentCarouselSlide = (currentCarouselSlide + 1) % carouselSlides.length;
-        } else if (touchEndX > touchStartX + minSwipeDistance) {
-            currentCarouselSlide = (currentCarouselSlide - 1 + carouselSlides.length) % carouselSlides.length;
-        }
-        updateCarousel();
-    }
-
-
-    // Initial setup
-    updateCarousel();
-    startCarouselAutoSlide();
-
-    // Responsive update - re-run on resize (e.g. orientation change)
-    window.removeEventListener('resize', updateCarousel); // Prevent multiple listeners
-    window.addEventListener('resize', () => {
-        // Re-check if carousel should be active
-        if (window.innerWidth <= 768) { // Re-enable if still mobile view
-             updateCarousel();
-             startCarouselAutoSlide();
-        } else { // Disable if transitioned to desktop
-            initStatsCarousel(); // This will effectively stop and reset if desktop
-        }
-    });
-}
-
+// Stats Carousel Logic (Removed for Dashboard)
+// The function initStatsCarousel and related logic has been removed as per request.
 
 // Intersection Observer for animate-on-scroll elements
 const animateOnScrollObserver = new IntersectionObserver((entries) => {
@@ -336,12 +239,6 @@ function setupAnimateOnScroll() {
     document.querySelectorAll('.content-section.active .animate-on-scroll').forEach(el => {
         animateOnScrollObserver.observe(el);
     });
-    // For dashboard section, the main carousel might need special handling
-    document.querySelectorAll('.mobile-main-stats-carousel').forEach(el => {
-        if (window.innerWidth <= 768) {
-            el.classList.add('is-visible'); // Force visible since it's above the fold on mobile dashboard
-        }
-    });
 }
 
 
@@ -354,7 +251,7 @@ $(document).ready(function() {
     loadData();
     loadGoals();
     $('body').append('<div id="toast-container"></div>');
-    initStatsCarousel(); // Initialize stats carousel on dashboard load
+    // initStatsCarousel(); // REMOVED as per request.
 });
 
 function setupInitialUI() {
@@ -399,7 +296,6 @@ function initializeComponents() {
 
 function setupNavigation() {
     $('.nav-item').click(function(e) {
-        // Only prevent default if it's a section link, not the log button
         if ($(this).attr('href') && $(this).attr('href').startsWith('#')) {
             e.preventDefault();
             $('.nav-item').removeClass('active');
@@ -407,17 +303,13 @@ function setupNavigation() {
             $('.content-section').removeClass('active');
             $($(this).attr('href')).addClass('active');
 
-            // Set up animations for the newly active section
-            setupAnimateOnScroll();
+            setupAnimateOnScroll(); // Set up animations for the newly active section
 
             const sectionId = $(this).attr('href');
-            if (sectionId === '#dashboard') {
-                loadData(); // Reload data when navigating to dashboard
-                initStatsCarousel(); // Re-init carousel when dashboard is active (will auto-disable on desktop)
+            if (sectionId === '#dashboard' || sectionId === '#history' || sectionId === '#analytics') {
+                loadData(); // Reload data for these sections
             } else if (sectionId === '#goals') {
                 loadGoals(); // Load goals specifically
-            } else if (sectionId === '#history' || sectionId === '#analytics') {
-                loadData(); // Analytics and history also depend on full data
             }
         }
     });
@@ -475,7 +367,7 @@ function logEntry() {
 function loadData() {
     // Reset all animated stat values to '...' before loading
     $('.stat-value-animated').text('...');
-    $('#avgInterval, #longestStreak, #bestDay, #topTrigger, #secondaryTopTrigger').text('--'); // Ensure these are reset too
+    $('#avgInterval, #longestStreak, #bestDay, #topTrigger, #secondaryTopTrigger').text('--');
 
     const url = `${scriptUrl}?action=loadData&userID=${userID}&token=${token}&email=${email}`;
     fetch(url)
