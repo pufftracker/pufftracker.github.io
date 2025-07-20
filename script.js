@@ -211,7 +211,7 @@ function animateNumber(element, start, end, duration) {
         if (progress < 1) {
             requestAnimationFrame(step);
         } else {
-            element.textContent = end; // Ensure final value is exact
+            element.textContent = end;
         }
     };
     requestAnimationFrame(step);
@@ -226,10 +226,18 @@ function initStatsCarousel() {
     const carouselSlides = document.querySelectorAll('.mobile-main-stats-carousel .carousel-slide');
     const carouselDots = document.querySelectorAll('.mobile-main-stats-carousel .carousel-nav .dot');
 
-    if (!carouselTrack || carouselSlides.length === 0) return;
+    // Only initialize if elements exist (i.e., on mobile view where carousel is displayed)
+    if (!carouselTrack || carouselSlides.length === 0 || window.innerWidth > 768) { // Added condition to disable on desktop
+        // If on desktop or elements not found, ensure track is reset to default
+        if(carouselTrack) carouselTrack.style.transform = `translateX(0px)`;
+        if(carouselDots) carouselDots.forEach(dot => dot.classList.remove('active'));
+        clearInterval(carouselInterval);
+        return;
+    }
+
 
     const updateCarousel = () => {
-        const slideWidth = carouselSlides[0].offsetWidth; // Get width of one slide
+        const slideWidth = carouselSlides[0].offsetWidth;
         carouselTrack.style.transform = `translateX(${-currentCarouselSlide * slideWidth}px)`;
 
         carouselDots.forEach((dot, index) => {
@@ -247,8 +255,8 @@ function initStatsCarousel() {
     };
 
     const startCarouselAutoSlide = () => {
-        clearInterval(carouselInterval);
-        carouselInterval = setInterval(showNextSlide, 5000); // Change slide every 5 seconds
+        clearInterval(carouselInterval); // Clear existing interval first
+        carouselInterval = setInterval(showNextSlide, 5000);
     };
 
     const stopCarouselAutoSlide = () => {
@@ -281,12 +289,10 @@ function initStatsCarousel() {
     });
 
     function handleSwipe() {
-        const minSwipeDistance = 50; // Minimum swipe distance
+        const minSwipeDistance = 50;
         if (touchEndX < touchStartX - minSwipeDistance) {
-            // Swiped left
             currentCarouselSlide = (currentCarouselSlide + 1) % carouselSlides.length;
         } else if (touchEndX > touchStartX + minSwipeDistance) {
-            // Swiped right
             currentCarouselSlide = (currentCarouselSlide - 1 + carouselSlides.length) % carouselSlides.length;
         }
         updateCarousel();
@@ -297,8 +303,45 @@ function initStatsCarousel() {
     updateCarousel();
     startCarouselAutoSlide();
 
-    // Responsive update
-    window.addEventListener('resize', updateCarousel);
+    // Responsive update - re-run on resize (e.g. orientation change)
+    window.removeEventListener('resize', updateCarousel); // Prevent multiple listeners
+    window.addEventListener('resize', () => {
+        // Re-check if carousel should be active
+        if (window.innerWidth <= 768) { // Re-enable if still mobile view
+             updateCarousel();
+             startCarouselAutoSlide();
+        } else { // Disable if transitioned to desktop
+            initStatsCarousel(); // This will effectively stop and reset if desktop
+        }
+    });
+}
+
+
+// Intersection Observer for animate-on-scroll elements
+const animateOnScrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            animateOnScrollObserver.unobserve(entry.target); // Observe once
+        }
+    });
+}, { root: null, rootMargin: '0px', threshold: 0.1 }); // Observe when 10% visible
+
+function setupAnimateOnScroll() {
+    // Stop observing old elements before observing new ones
+    document.querySelectorAll('.animate-on-scroll.is-visible').forEach(el => el.classList.remove('is-visible')); // Reset state
+    document.querySelectorAll('.animate-on-scroll').forEach(el => animateOnScrollObserver.unobserve(el)); // Clear old observations
+
+    // Observe elements in the currently active section
+    document.querySelectorAll('.content-section.active .animate-on-scroll').forEach(el => {
+        animateOnScrollObserver.observe(el);
+    });
+    // For dashboard section, the main carousel might need special handling
+    document.querySelectorAll('.mobile-main-stats-carousel').forEach(el => {
+        if (window.innerWidth <= 768) {
+            el.classList.add('is-visible'); // Force visible since it's above the fold on mobile dashboard
+        }
+    });
 }
 
 
@@ -306,7 +349,7 @@ function initStatsCarousel() {
 $(document).ready(function() {
     setupInitialUI();
     initializeComponents();
-    setupNavigation();
+    setupNavigation(); // Calls setupAnimateOnScroll internally for initial load
     initializeCharts();
     loadData();
     loadGoals();
@@ -356,51 +399,31 @@ function initializeComponents() {
 
 function setupNavigation() {
     $('.nav-item').click(function(e) {
-        if ($(this).hasClass('log-button')) return;
-        e.preventDefault();
-        $('.nav-item').removeClass('active');
-        $(this).addClass('active');
-        $('.content-section').removeClass('active');
-        $($(this).attr('href')).addClass('active');
+        // Only prevent default if it's a section link, not the log button
+        if ($(this).attr('href') && $(this).attr('href').startsWith('#')) {
+            e.preventDefault();
+            $('.nav-item').removeClass('active');
+            $(this).addClass('active');
+            $('.content-section').removeClass('active');
+            $($(this).attr('href')).addClass('active');
 
-        // Re-initialize Intersection Observer for new section (if needed)
-        // This makes sure animate-on-scroll elements in the newly active section become visible
-        const animateOnScrollElements = document.querySelectorAll('.content-section.active .animate-on-scroll');
-        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); // Observe once
-                }
-            });
-        }, observerOptions);
-        animateOnScrollElements.forEach(el => observer.observe(el));
+            // Set up animations for the newly active section
+            setupAnimateOnScroll();
 
-
-        const sectionId = $(this).attr('href');
-        if (sectionId === '#dashboard') {
-            loadData(); // Reload data when navigating to dashboard
-            initStatsCarousel(); // Re-init carousel when dashboard is active
-        } else if (sectionId === '#goals') {
-            loadGoals(); // Load goals specifically
-        } else if (sectionId === '#history' || sectionId === '#analytics') {
-            loadData(); // Analytics and history also depend on full data
+            const sectionId = $(this).attr('href');
+            if (sectionId === '#dashboard') {
+                loadData(); // Reload data when navigating to dashboard
+                initStatsCarousel(); // Re-init carousel when dashboard is active (will auto-disable on desktop)
+            } else if (sectionId === '#goals') {
+                loadGoals(); // Load goals specifically
+            } else if (sectionId === '#history' || sectionId === '#analytics') {
+                loadData(); // Analytics and history also depend on full data
+            }
         }
     });
 
-    // Initial observer setup for the first active section (dashboard)
-    const initialAnimateOnScrollElements = document.querySelectorAll('.content-section.active .animate-on-scroll');
-    const initialObserverOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-    const initialObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                initialObserver.unobserve(entry.target);
-            }
-        });
-    }, initialObserverOptions);
-    initialAnimateOnScrollElements.forEach(el => initialObserver.observe(el));
+    // Initial setup of animate-on-scroll for the default active dashboard section
+    setupAnimateOnScroll();
 }
 
 function logEntry() {
@@ -452,12 +475,7 @@ function logEntry() {
 function loadData() {
     // Reset all animated stat values to '...' before loading
     $('.stat-value-animated').text('...');
-    // Reset other specific text stats
-    $('#longestStreak').text('--');
-    $('#bestDay').text('--');
-    $('#avgInterval').text('--');
-    $('#topTrigger').text('--');
-    $('#secondaryTopTrigger').text('--');
+    $('#avgInterval, #longestStreak, #bestDay, #topTrigger, #secondaryTopTrigger').text('--'); // Ensure these are reset too
 
     const url = `${scriptUrl}?action=loadData&userID=${userID}&token=${token}&email=${email}`;
     fetch(url)
@@ -465,7 +483,6 @@ function loadData() {
         .then(response => {
             if (response.status === 'success') {
                 allUserData = response.records;
-                // Process data and update animated stats after successful fetch
                 processData(allUserData);
                 processAdvancedAnalytics(allUserData);
             } else {
