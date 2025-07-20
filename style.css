@@ -632,10 +632,15 @@ h2.section-title {
 
 
 /* Dashboard Grid and Animation */
-.bento-grid-animated {
+.bento-grid-animated { /* Desktop-specific grid (might be overridden by mobile grid) */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem; /* Consistent gap */
+    gap: 1rem;
+}
+.bento-grid-animated-mobile { /* Default mobile-first grid, will be column on small, 2x2 on medium */
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column for smallest screens */
+    gap: 0.8rem; /* Smaller gap for mobile */
 }
 
 /* Base style for animated boxes (replaces .bento-box for dashboard/analytics) */
@@ -647,60 +652,68 @@ h2.section-title {
     border: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Ensures content spreads out vertically */
+    justify-content: space-between;
     transition: all 0.3s ease;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); /* Slightly stronger default shadow */
-    overflow: hidden; /* Important for inner animations */
-    position: relative; /* For pseudo-elements or subtle effects */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    position: relative;
+    /* Added initial animation state */
+    opacity: 0;
+    transform: translateY(20px);
 }
+.bento-box.is-visible { /* For animate-on-scroll */
+    opacity: 1;
+    transform: translateY(0);
+}
+
 
 .bento-box:hover {
     transform: translateY(-5px);
-    box-shadow: 0 0 25px rgba(0, 255, 171, 0.15); /* More pronounced hover shadow */
-    border-color: var(--primary-color); /* Highlight border on hover */
+    box-shadow: 0 0 25px rgba(0, 255, 171, 0.15);
+    border-color: var(--primary-color);
 }
 
 /* Animated Stat Values (for numbers like smoked today, total smoked, etc.) */
 .stat-value-animated {
-    font-family: 'Poppins', sans-serif; /* Use Poppins for prominent numbers */
-    font-size: 2.5rem; /* Larger font size */
-    font-weight: 800; /* Bolder */
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
     color: var(--primary-color);
     line-height: 1;
-    text-shadow: 0 0 10px rgba(0, 255, 171, 0.3); /* Subtle glow */
+    text-shadow: 0 0 10px rgba(0, 255, 171, 0.3);
     transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 .bento-box:hover .stat-value-animated {
-    color: #fff; /* White text on hover */
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Stronger glow */
+    color: #fff;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
 
 /* Animated Stat Icons */
 .stat-icon-wrapper {
-    width: 50px; /* Fixed size container */
+    width: 50px;
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 255, 171, 0.1); /* Subtle background for icons */
+    background: rgba(0, 255, 171, 0.1);
     border-radius: 12px;
-    margin-bottom: 10px; /* Space from text */
+    margin-bottom: 10px;
     transition: all 0.3s ease;
 }
 .bento-box:hover .stat-icon-wrapper {
-    background: var(--primary-color); /* Primary color background on hover */
+    background: var(--primary-color);
     box-shadow: 0 0 20px rgba(0, 255, 171, 0.5);
-    transform: rotate(5deg) scale(1.1); /* Subtle rotation and scale on hover */
+    transform: rotate(5deg) scale(1.1);
 }
 
-.stat-icon-wrapper .stat-icon { /* Target the icon inside the wrapper */
-    font-size: 1.8rem; /* Larger icon size */
-    color: var(--primary-color); /* Primary color for icon */
+.stat-icon-wrapper .stat-icon {
+    font-size: 1.8rem;
+    color: var(--primary-color);
     transition: color 0.3s ease;
 }
 .bento-box:hover .stat-icon-wrapper .stat-icon {
-    color: var(--dark-bg); /* Dark background color for icon on hover */
+    color: var(--dark-bg);
 }
 
 
@@ -709,10 +722,18 @@ h2.section-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-top: 2rem; /* Add some top margin for sections */
+    margin-bottom: 1.5rem; /* Adjusted for mobile space */
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--border-color);
     transition: all 0.6s ease;
+    /* Added initial animation state */
+    opacity: 0;
+    transform: translateY(20px);
+}
+.section-header-animated.is-visible { /* For animate-on-scroll */
+    opacity: 1;
+    transform: translateY(0);
 }
 .section-header-animated h2, .section-header-animated h3 {
     font-family: 'Poppins', sans-serif;
@@ -722,55 +743,49 @@ h2.section-title {
     display: flex;
     align-items: center;
     gap: 10px;
+    font-size: 2rem; /* Default for mobile H2 */
 }
 .section-header-animated h2 i, .section-header-animated h3 i {
     color: var(--primary-color);
     font-size: 1.8rem;
 }
 .section-header-animated .btn {
-    flex-shrink: 0; /* Prevent button from shrinking */
-}
-/* Ensure the animate-on-scroll works on these headers */
-.section-header-animated.animate-on-scroll {
-    opacity: 0;
-    transform: translateY(20px);
-}
-.section-header-animated.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+    flex-shrink: 0;
+    padding: 0.6rem 1rem; /* Smaller button for mobile headers */
+    font-size: 0.9rem;
 }
 
 
 /* Goals Grid Enhancements */
-.goals-grid .bento-box {
-    text-align: left; /* Align content to left within goal boxes */
+.goals-grid-custom .bento-box { /* Custom class for Goals section grid */
+    text-align: left;
 }
-.goals-grid .bento-box .stat-icon-wrapper {
-    background: transparent; /* No specific background for goal icons, or can be a lighter tint */
+.goals-grid-custom .bento-box .stat-icon-wrapper {
+    background: transparent;
     border-radius: 0;
     width: auto;
     height: auto;
     justify-content: flex-start;
     margin-bottom: 5px;
 }
-.goals-grid .bento-box .stat-icon-wrapper .stat-icon {
-    font-size: 1.5rem; /* Smaller icons for goals */
+.goals-grid-custom .bento-box .stat-icon-wrapper .stat-icon {
+    font-size: 1.5rem;
     color: var(--primary-color);
 }
-.goals-grid .bento-box .stat-value-animated {
-    font-size: 2rem; /* Slightly smaller numbers for goals */
-    color: var(--text-color); /* Default text color, highlight from status */
+.goals-grid-custom .bento-box .stat-value-animated {
+    font-size: 2rem;
+    color: var(--text-color);
 }
-.goals-grid .bento-box .stat-label {
+.goals-grid-custom .bento-box .stat-label {
     font-size: 0.95rem;
     font-weight: 600;
     color: var(--text-muted);
     margin-bottom: 0.5rem;
 }
-.goals-grid .bento-box .text-muted {
+.goals-grid-custom .bento-box .text-muted {
     font-size: 0.85rem;
 }
-.goals-grid .bento-box .progress {
+.goals-grid-custom .bento-box .progress {
     height: 6px;
     margin-top: 10px !important;
 }
@@ -778,20 +793,27 @@ h2.section-title {
 
 /* Table Animations */
 .table-animated {
-    overflow-x: auto; /* Ensure tables are scrollable on small screens */
+    overflow-x: auto;
     border-radius: 20px;
-    background-color: var(--card-bg); /* Use card background for tables */
+    background-color: var(--card-bg);
     padding: 1rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    /* Added initial animation state */
+    opacity: 0;
+    transform: translateY(20px);
+}
+.table-animated.is-visible { /* For animate-on-scroll */
+    opacity: 1;
+    transform: translateY(0);
 }
 .table-animated table {
     width: 100%;
-    border-collapse: separate; /* Required for border-radius on cells */
+    border-collapse: separate;
     border-spacing: 0;
 }
 .table-animated thead th {
-    background-color: rgba(0, 255, 171, 0.1); /* Light primary tint for header */
-    color: var(--primary-color); /* Primary color for header text */
+    background-color: rgba(0, 255, 171, 0.1);
+    color: var(--primary-color);
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
@@ -800,10 +822,10 @@ h2.section-title {
     transition: background-color 0.3s ease;
 }
 .table-animated tbody tr:nth-child(even) {
-    background-color: rgba(30, 30, 30, 0.3); /* Slightly different row color */
+    background-color: rgba(30, 30, 30, 0.3);
 }
 .table-animated tbody tr:hover {
-    background-color: rgba(0, 255, 171, 0.05); /* Hover effect on rows */
+    background-color: rgba(0, 255, 171, 0.05);
 }
 .table-animated tbody td {
     padding: 10px 15px;
@@ -815,12 +837,91 @@ h2.section-title {
     border-bottom: none;
 }
 .table-animated .badge {
-    padding: 0.4em 0.7em; /* Make badges slightly larger */
+    padding: 0.4em 0.7em;
     border-radius: 5px;
     font-weight: 600;
     font-size: 0.85rem;
 }
 
+
+/* Dashboard - Mobile Main Stats Carousel (New Feature) */
+.mobile-main-stats-carousel {
+    display: none; /* Hidden by default, shown on mobile */
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 2rem; /* Space for dots */
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%; /* Ensure track takes full width of carousel */
+}
+
+.carousel-slide {
+    flex-shrink: 0; /* Prevent slides from shrinking */
+    width: 100%; /* Each slide takes full width of its container */
+    box-sizing: border-box; /* Include padding/border in width */
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.stat-highlight-card .stat-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    background: rgba(0, 255, 171, 0.15);
+    border-radius: 50%; /* Make icon background round */
+    margin-bottom: 15px;
+    box-shadow: 0 0 15px rgba(0, 255, 171, 0.2);
+}
+.stat-highlight-card .stat-icon-wrapper .stat-icon {
+    font-size: 3rem; /* Larger icon for highlight */
+    color: var(--primary-color);
+}
+.stat-highlight-card .stat-label {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.stat-highlight-card .stat-value-animated {
+    font-size: 4rem; /* Super large number for highlight */
+    font-weight: 900;
+    color: var(--primary-color);
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(0, 255, 171, 0.5);
+}
+
+.carousel-nav {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+}
+.carousel-nav .dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--text-muted);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.carousel-nav .dot.active {
+    background-color: var(--primary-color);
+    transform: scale(1.2);
+}
 
 .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
 .bento-box { background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 20px; padding: 1.25rem; border: 1px solid var(--border-color); display: flex; flex-direction: column; transition: all 0.3s ease; }
@@ -1524,6 +1625,79 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     }
     .card-value { font-size: 2.2rem; }
     .card-header { font-size: 0.85rem; }
+    
+    /* Dashboard specific */
+    .main-content {
+        padding: 0.8rem;
+    }
+    .bento-grid-animated { /* Desktop-specific, hide it */
+        display: none;
+    }
+    .bento-grid-animated-mobile { /* Show on smaller screens */
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 2 columns on tablets */
+        gap: 0.8rem;
+    }
+    .bento-box {
+        padding: 1rem;
+    }
+    .stat-value-animated {
+        font-size: 2.2rem;
+    }
+    .stat-icon-wrapper {
+        width: 45px;
+        height: 45px;
+    }
+    .stat-icon-wrapper .stat-icon {
+        font-size: 1.6rem;
+    }
+
+    .section-header-animated {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+    }
+    .section-header-animated h2, .section-header-animated h3 {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    .section-header-animated .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .goals-grid-custom .bento-box .stat-value-animated {
+        font-size: 1.8rem;
+    }
+
+    .table-animated {
+        padding: 0.5rem;
+    }
+    .table-animated thead th, .table-animated tbody td {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+
+    /* Mobile Stats Carousel */
+    .mobile-main-stats-carousel {
+        display: flex; /* Show carousel on mobile */
+    }
+    .stat-highlight-card {
+        padding: 1.5rem;
+    }
+    .stat-highlight-card .stat-value-animated {
+        font-size: 3.5rem; /* Larger for highlight */
+    }
+    .stat-highlight-card .stat-label {
+        font-size: 1.1rem;
+    }
+    .stat-highlight-card .stat-icon-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+    .stat-highlight-card .stat-icon {
+        font-size: 2.5rem;
+    }
 }
 
 @media (max-width: 576px) {
@@ -1590,42 +1764,44 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
         font-size: 1rem;
     }
 
-    /* Responsive for Static Pages */
-    .static-page-container {
-        margin: 1rem;
-        padding: 1rem;
-        padding-top: 2.5rem;
+    /* Dashboard-specific adjustments for smallest screens */
+    .bento-grid-animated-mobile {
+        grid-template-columns: 1fr; /* Force single column on smallest screens */
+        gap: 0.6rem;
     }
-    .static-page-container::before {
-        height: 80px;
+    .bento-box {
+        padding: 0.8rem;
     }
-    .static-page-container h1 {
-        font-size: 1.8rem;
-        gap: 8px;
+    .stat-value-animated {
+        font-size: 2rem;
     }
-    .static-page-container h1 i {
-        font-size: 1.6rem;
+    .stat-icon-wrapper {
+        width: 40px;
+        height: 40px;
     }
-    .static-page-container .section-intro {
-        font-size: 0.9rem;
-        margin-bottom: 1.5rem;
-    }
-    .content-block {
-        padding: 1.2rem;
-        margin-bottom: 1.5rem;
-    }
-    .content-block h2 {
+    .stat-icon-wrapper .stat-icon {
         font-size: 1.4rem;
     }
-    .content-block h3 {
-        font-size: 1.1rem;
+
+    .section-header-animated h2 {
+        font-size: 1.8rem;
     }
-    .content-block p, .content-block ul {
+    .section-header-animated h2 i {
+        font-size: 1.6rem;
+    }
+
+    .goals-grid-custom .bento-box .stat-value-animated {
+        font-size: 1.6rem;
+    }
+    .goals-grid-custom .bento-box .stat-label {
         font-size: 0.85rem;
     }
-    .static-page-container .btn-back,
-    .feedback-actions .btn {
-        width: 100%;
-        font-size: 0.95rem;
+    .goals-grid-custom .bento-box .text-muted {
+        font-size: 0.75rem;
+    }
+
+    .table-animated thead th, .table-animated tbody td {
+        padding: 6px 8px;
+        font-size: 0.8rem;
     }
 }
