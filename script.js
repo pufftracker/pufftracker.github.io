@@ -200,6 +200,24 @@ function showToast(message, type = 'success') {
     }, 4000);
 }
 
+// Added for animating numbers
+function animateNumber(element, start, end, duration) {
+    let startTime = null;
+    const step = (currentTime) => {
+        if (!startTime) startTime = currentTime;
+        const progress = Math.min((currentTime - startTime) / duration, 1);
+        const currentValue = Math.floor(progress * (end - start) + start);
+        element.textContent = currentValue;
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        } else {
+            element.textContent = end; // Ensure final value is exact
+        }
+    };
+    requestAnimationFrame(step);
+}
+
+
 // --- MAIN LOGIC ---
 $(document).ready(function() {
     setupInitialUI();
@@ -213,7 +231,10 @@ $(document).ready(function() {
 
 function setupInitialUI() {
     $('#welcome-message').html(`Welcome, <span>${nickname}</span>`);
-    $('#current-date').text(new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }));
+    const currentDate = new Date();
+    // Use format options for a more readable date like "Monday, July 21, 2025"
+    $('#current-date').text(currentDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }));
+    
     const today = getLocalISODate();
     $('#targetDate').attr('min', today);
 }
@@ -246,7 +267,6 @@ function initializeComponents() {
     });
     $('#saveGoal').click(saveGoal);
     
-    // Data Export Button (Modified to use the <a> tag trick with a slight delay for closing tab)
     $('#exportDataButton').click(exportData);
 }
 
@@ -315,7 +335,8 @@ function logEntry() {
 }
 
 function loadData() {
-    $('.stat-value').text('...');
+    $('.stat-value-animated').text('...'); // Target animated stats
+    $('#avgInterval, #longestStreak, #bestDay, #topTrigger').text('...'); // Non-animated ones
     const url = `${scriptUrl}?action=loadData&userID=${userID}&token=${token}&email=${email}`;
     fetch(url)
         .then(res => res.json())
@@ -345,11 +366,13 @@ function processData(data) {
 
     const today = getLocalISODate();
     const todayCount = cleanData.filter(entry => entry.entryDate === today).reduce((sum, entry) => sum + parseInt(entry.count), 0);
-    $('#todayCount').text(todayCount);
+    animateNumber(document.getElementById('todayCount'), 0, todayCount, 800); // Animate Today's Count
 
     const totalDays = [...new Set(cleanData.map(e => e.entryDate))].length;
     const totalCount = cleanData.reduce((sum, e) => sum + parseInt(e.count), 0);
-    $('#avgDaily').text(totalDays > 0 ? (totalCount / totalDays).toFixed(1) : 0);
+    const avgDailyVal = totalDays > 0 ? parseFloat((totalCount / totalDays).toFixed(1)) : 0;
+    // Animate rounded value for display, keep float for calculations
+    animateNumber(document.getElementById('avgDaily'), 0, Math.round(avgDailyVal), 1000); 
 
     const moodCounts = cleanData.reduce((acc, entry) => { acc[entry.mood] = (acc[entry.mood] || 0) + parseInt(entry.count); return acc; }, {});
     $('#topTrigger').text(Object.keys(moodCounts).length > 0 ? Object.entries(moodCounts).sort((a,b) => b[1]-a[1])[0][0] : '--');
@@ -410,17 +433,20 @@ function processAdvancedAnalytics(data) {
     });
 
     const totalSmoked = cleanData.reduce((sum, entry) => sum + parseInt(entry.count), 0);
-    $('#totalSmoked').text(totalSmoked);
+    animateNumber(document.getElementById('totalSmoked'), 0, totalSmoked, 1200);
 
     const distinctDates = [...new Set(cleanData.map(e => e.entryDate))];
-    $('#totalDaysTracked').text(distinctDates.length);
+    animateNumber(document.getElementById('totalDaysTracked'), 0, distinctDates.length, 1000);
 
     const moodCounts = cleanData.reduce((acc, entry) => { acc[entry.mood] = (acc[entry.mood] || 0) + parseInt(entry.count); return acc; }, {});
     const sortedMoods = Object.entries(moodCounts).sort((a, b) => b[1] - a[1]);
     $('#secondaryTopTrigger').text(sortedMoods.length > 1 ? sortedMoods[1][0] : '--');
 
-    $('#avgMonthly').text(calculateAverage(cleanData, 'monthly'));
-    $('#avgWeekly').text(calculateAverage(cleanData, 'weekly'));
+    const avgMonthlyVal = parseFloat(calculateAverage(cleanData, 'monthly'));
+    animateNumber(document.getElementById('avgMonthly'), 0, Math.round(avgMonthlyVal), 1200);
+
+    const avgWeeklyVal = parseFloat(calculateAverage(cleanData, 'weekly'));
+    animateNumber(document.getElementById('avgWeekly'), 0, Math.round(avgWeeklyVal), 1100);
 
     // Mood Distribution Chart
     const moodLabels = sortedMoods.map(item => item[0]);
@@ -676,9 +702,9 @@ function displayGoals(goals) {
             activeGoalsContainer.append(`
                 <div class="bento-box">
                     <div class="box-content">
-                        <div class="stat-icon"><i class="fas ${goal.goaltype === 'DailyReduction' ? 'fa-minus-circle' : 'fa-clock'}"></i></div>
+                        <div class="stat-icon-wrapper"><i class="fas ${goal.goaltype === 'DailyReduction' ? 'fa-minus-circle' : 'fa-clock'} stat-icon"></i></div>
                         <div class="stat-label">Goal: ${goal.goaltype === 'DailyReduction' ? 'Reduce Daily' : 'Longest Streak'}</div>
-                        <div class="stat-value">${goal.targetvalue} ${goal.goaltype === 'DailyReduction' ? 'cigs' : 'days'}</div>
+                        <div class="stat-value-animated">${goal.targetvalue} ${goal.goaltype === 'DailyReduction' ? 'cigs' : 'days'}</div>
                         <small class="text-muted">Target by: ${displayTargetDate}</small><br>
                         <small class="text-info">${progressText}</small>
                         <div class="progress mt-2" style="height: 5px;">
@@ -738,7 +764,6 @@ function calculateCurrentSmokeFreeStreak() {
     return diffDays > 0 ? diffDays : 0;
 }
 
-// --- MODIFIED: DATA EXPORT TO NOT OPEN NEW TAB AND USE TOAST ---
 function exportData() {
     const exportBtn = $('#exportDataButton');
     exportBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm"></span> Exporting...');
