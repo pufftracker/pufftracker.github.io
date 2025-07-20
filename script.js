@@ -217,25 +217,22 @@ function animateNumber(element, start, end, duration) {
     requestAnimationFrame(step);
 }
 
-// Stats Carousel Logic (Removed for Dashboard)
-// The function initStatsCarousel and related logic has been removed as per request.
+// Stats Carousel Logic (Removed from Dashboard as per request)
 
 // Intersection Observer for animate-on-scroll elements
 const animateOnScrollObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('is-visible');
-            animateOnScrollObserver.unobserve(entry.target); // Observe once
+            animateOnScrollObserver.unobserve(entry.target);
         }
     });
-}, { root: null, rootMargin: '0px', threshold: 0.1 }); // Observe when 10% visible
+}, { root: null, rootMargin: '0px', threshold: 0.1 });
 
 function setupAnimateOnScroll() {
-    // Stop observing old elements before observing new ones
-    document.querySelectorAll('.animate-on-scroll.is-visible').forEach(el => el.classList.remove('is-visible')); // Reset state
-    document.querySelectorAll('.animate-on-scroll').forEach(el => animateOnScrollObserver.unobserve(el)); // Clear old observations
+    document.querySelectorAll('.animate-on-scroll.is-visible').forEach(el => el.classList.remove('is-visible'));
+    document.querySelectorAll('.animate-on-scroll').forEach(el => animateOnScrollObserver.unobserve(el));
 
-    // Observe elements in the currently active section
     document.querySelectorAll('.content-section.active .animate-on-scroll').forEach(el => {
         animateOnScrollObserver.observe(el);
     });
@@ -246,12 +243,11 @@ function setupAnimateOnScroll() {
 $(document).ready(function() {
     setupInitialUI();
     initializeComponents();
-    setupNavigation(); // Calls setupAnimateOnScroll internally for initial load
+    setupNavigation();
     initializeCharts();
     loadData();
     loadGoals();
     $('body').append('<div id="toast-container"></div>');
-    // initStatsCarousel(); // REMOVED as per request.
 });
 
 function setupInitialUI() {
@@ -303,18 +299,17 @@ function setupNavigation() {
             $('.content-section').removeClass('active');
             $($(this).attr('href')).addClass('active');
 
-            setupAnimateOnScroll(); // Set up animations for the newly active section
+            setupAnimateOnScroll();
 
             const sectionId = $(this).attr('href');
             if (sectionId === '#dashboard' || sectionId === '#history' || sectionId === '#analytics') {
-                loadData(); // Reload data for these sections
+                loadData();
             } else if (sectionId === '#goals') {
-                loadGoals(); // Load goals specifically
+                loadGoals();
             }
         }
     });
 
-    // Initial setup of animate-on-scroll for the default active dashboard section
     setupAnimateOnScroll();
 }
 
@@ -365,7 +360,6 @@ function logEntry() {
 }
 
 function loadData() {
-    // Reset all animated stat values to '...' before loading
     $('.stat-value-animated').text('...');
     $('#avgInterval, #longestStreak, #bestDay, #topTrigger, #secondaryTopTrigger').text('--');
 
