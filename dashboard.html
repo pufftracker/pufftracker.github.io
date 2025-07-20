@@ -34,69 +34,64 @@
 
         <div class="main-content">
             <section id="dashboard" class="content-section active">
-                <div class="mobile-main-stats-carousel">
-                    <div class="carousel-track">
-                        <div class="carousel-slide stat-highlight-card">
+                <div class="bento-grid-animated-mobile">
+                    <div class="bento-box animate-on-scroll delay-1">
+                        <div class="box-content">
                             <div class="stat-icon-wrapper"><i class="fas fa-calendar-day stat-icon"></i></div>
                             <div class="stat-label">Smoked Today</div>
                             <div class="stat-value-animated" id="todayCount" data-target="0">0</div>
                         </div>
-                        <div class="carousel-slide stat-highlight-card">
+                    </div>
+                    <div class="bento-box animate-on-scroll delay-2">
+                        <div class="box-content">
                             <div class="stat-icon-wrapper"><i class="fas fa-history stat-icon"></i></div>
                             <div class="stat-label">Time Since Last</div>
                             <div class="stat-value-animated" id="timeSinceLast" data-target="0">--</div>
                         </div>
-                        <div class="carousel-slide stat-highlight-card">
+                    </div>
+                    <div class="bento-box animate-on-scroll delay-3">
+                        <div class="box-content">
                             <div class="stat-icon-wrapper"><i class="fas fa-clock stat-icon"></i></div>
                             <div class="stat-label">Avg Interval</div>
                             <div class="stat-value-animated" id="avgInterval" data-target="0">--</div>
                         </div>
                     </div>
-                    <div class="carousel-nav">
-                        <span class="dot active" data-slide="0"></span>
-                        <span class="dot" data-slide="1"></span>
-                        <span class="dot" data-slide="2"></span>
-                    </div>
-                </div>
-
-                <div class="bento-grid-animated-mobile">
-                    <div class="bento-box animate-on-scroll delay-1">
+                    <div class="bento-box animate-on-scroll delay-4">
                         <div class="box-content">
                             <div class="stat-icon-wrapper"><i class="fas fa-trophy stat-icon"></i></div>
                             <div class="stat-label">Longest Streak</div>
                             <div class="stat-value-animated" id="longestStreak" data-target="0">--</div>
                         </div>
                     </div>
-                    <div class="bento-box animate-on-scroll delay-2">
+                    <div class="bento-box animate-on-scroll delay-5">
                         <div class="box-content">
                             <div class="stat-icon-wrapper"><i class="fas fa-star stat-icon"></i></div>
                             <div class="stat-label">Best Day</div>
                             <div class="stat-value-animated" id="bestDay" data-target="0">--</div>
                         </div>
                     </div>
-                    <div class="bento-box animate-on-scroll delay-3">
+                    <div class="bento-box animate-on-scroll delay-6">
                         <div class="box-content">
                             <div class="stat-icon-wrapper"><i class="fas fa-calculator stat-icon"></i></div>
                             <div class="stat-label">Daily Average</div>
                             <div class="stat-value-animated" id="avgDaily" data-target="0">0</div>
                         </div>
                     </div>
-                    <div class="bento-box animate-on-scroll delay-4">
+                    <div class="bento-box animate-on-scroll delay-7">
                         <div class="box-content">
                             <div class="stat-icon-wrapper"><i class="fas fa-fire stat-icon"></i></div>
                             <div class="stat-label">Top Trigger</div>
                             <div class="stat-value-animated" id="topTrigger" data-target="0">--</div>
                         </div>
                     </div>
-                </div>
-
-                <div class="bento-box chart-full-width animate-on-scroll delay-5">
-                    <div class="chart-header">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Daily Trend (Last 7 Days)</span>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="dailyTrendChart"></canvas>
+                    <div class="bento-box chart-full-width animate-on-scroll delay-8">
+                        <div class="chart-header">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Daily Trend (Last 7 Days)</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="dailyTrendChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -257,7 +252,6 @@
                                 <option value="Home" selected>Home</option>
                                 <option value="Office">Office</option>
                                 <option value="Outside Home">Outside Home</option>
-                                <option value="Other">Other</option>
                             </select>
                         </div>
                     </form>
