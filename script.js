@@ -217,6 +217,90 @@ function animateNumber(element, start, end, duration) {
     requestAnimationFrame(step);
 }
 
+// Stats Carousel Logic (New for Dashboard)
+let currentCarouselSlide = 0;
+let carouselInterval;
+
+function initStatsCarousel() {
+    const carouselTrack = document.querySelector('.mobile-main-stats-carousel .carousel-track');
+    const carouselSlides = document.querySelectorAll('.mobile-main-stats-carousel .carousel-slide');
+    const carouselDots = document.querySelectorAll('.mobile-main-stats-carousel .carousel-nav .dot');
+
+    if (!carouselTrack || carouselSlides.length === 0) return;
+
+    const updateCarousel = () => {
+        const slideWidth = carouselSlides[0].offsetWidth; // Get width of one slide
+        carouselTrack.style.transform = `translateX(${-currentCarouselSlide * slideWidth}px)`;
+
+        carouselDots.forEach((dot, index) => {
+            if (index === currentCarouselSlide) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    };
+
+    const showNextSlide = () => {
+        currentCarouselSlide = (currentCarouselSlide + 1) % carouselSlides.length;
+        updateCarousel();
+    };
+
+    const startCarouselAutoSlide = () => {
+        clearInterval(carouselInterval);
+        carouselInterval = setInterval(showNextSlide, 5000); // Change slide every 5 seconds
+    };
+
+    const stopCarouselAutoSlide = () => {
+        clearInterval(carouselInterval);
+    };
+
+    // Manual navigation via dots
+    carouselDots.forEach((dot) => {
+        dot.addEventListener('click', (e) => {
+            currentCarouselSlide = parseInt(e.target.dataset.slide);
+            updateCarousel();
+            stopCarouselAutoSlide();
+            startCarouselAutoSlide(); // Restart timer after manual interaction
+        });
+    });
+
+    // Handle touch/swipe
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carouselTrack.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        stopCarouselAutoSlide();
+    });
+
+    carouselTrack.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].clientX;
+        handleSwipe();
+        startCarouselAutoSlide(); // Restart timer after swipe
+    });
+
+    function handleSwipe() {
+        const minSwipeDistance = 50; // Minimum swipe distance
+        if (touchEndX < touchStartX - minSwipeDistance) {
+            // Swiped left
+            currentCarouselSlide = (currentCarouselSlide + 1) % carouselSlides.length;
+        } else if (touchEndX > touchStartX + minSwipeDistance) {
+            // Swiped right
+            currentCarouselSlide = (currentCarouselSlide - 1 + carouselSlides.length) % carouselSlides.length;
+        }
+        updateCarousel();
+    }
+
+
+    // Initial setup
+    updateCarousel();
+    startCarouselAutoSlide();
+
+    // Responsive update
+    window.addEventListener('resize', updateCarousel);
+}
+
 
 // --- MAIN LOGIC ---
 $(document).ready(function() {
@@ -227,12 +311,12 @@ $(document).ready(function() {
     loadData();
     loadGoals();
     $('body').append('<div id="toast-container"></div>');
+    initStatsCarousel(); // Initialize stats carousel on dashboard load
 });
 
 function setupInitialUI() {
     $('#welcome-message').html(`Welcome, <span>${nickname}</span>`);
     const currentDate = new Date();
-    // Use format options for a more readable date like "Monday, July 21, 2025"
     $('#current-date').text(currentDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }));
     
     const today = getLocalISODate();
@@ -279,13 +363,44 @@ function setupNavigation() {
         $('.content-section').removeClass('active');
         $($(this).attr('href')).addClass('active');
 
+        // Re-initialize Intersection Observer for new section (if needed)
+        // This makes sure animate-on-scroll elements in the newly active section become visible
+        const animateOnScrollElements = document.querySelectorAll('.content-section.active .animate-on-scroll');
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Observe once
+                }
+            });
+        }, observerOptions);
+        animateOnScrollElements.forEach(el => observer.observe(el));
+
+
         const sectionId = $(this).attr('href');
-        if (sectionId === '#dashboard' || sectionId === '#history' || sectionId === '#analytics') {
-            loadData();
+        if (sectionId === '#dashboard') {
+            loadData(); // Reload data when navigating to dashboard
+            initStatsCarousel(); // Re-init carousel when dashboard is active
         } else if (sectionId === '#goals') {
-            loadGoals();
+            loadGoals(); // Load goals specifically
+        } else if (sectionId === '#history' || sectionId === '#analytics') {
+            loadData(); // Analytics and history also depend on full data
         }
     });
+
+    // Initial observer setup for the first active section (dashboard)
+    const initialAnimateOnScrollElements = document.querySelectorAll('.content-section.active .animate-on-scroll');
+    const initialObserverOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+    const initialObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                initialObserver.unobserve(entry.target);
+            }
+        });
+    }, initialObserverOptions);
+    initialAnimateOnScrollElements.forEach(el => initialObserver.observe(el));
 }
 
 function logEntry() {
@@ -335,14 +450,22 @@ function logEntry() {
 }
 
 function loadData() {
-    $('.stat-value-animated').text('...'); // Target animated stats
-    $('#avgInterval, #longestStreak, #bestDay, #topTrigger').text('...'); // Non-animated ones
+    // Reset all animated stat values to '...' before loading
+    $('.stat-value-animated').text('...');
+    // Reset other specific text stats
+    $('#longestStreak').text('--');
+    $('#bestDay').text('--');
+    $('#avgInterval').text('--');
+    $('#topTrigger').text('--');
+    $('#secondaryTopTrigger').text('--');
+
     const url = `${scriptUrl}?action=loadData&userID=${userID}&token=${token}&email=${email}`;
     fetch(url)
         .then(res => res.json())
         .then(response => {
             if (response.status === 'success') {
                 allUserData = response.records;
+                // Process data and update animated stats after successful fetch
                 processData(allUserData);
                 processAdvancedAnalytics(allUserData);
             } else {
@@ -366,13 +489,12 @@ function processData(data) {
 
     const today = getLocalISODate();
     const todayCount = cleanData.filter(entry => entry.entryDate === today).reduce((sum, entry) => sum + parseInt(entry.count), 0);
-    animateNumber(document.getElementById('todayCount'), 0, todayCount, 800); // Animate Today's Count
+    animateNumber(document.getElementById('todayCount'), 0, todayCount, 800);
 
     const totalDays = [...new Set(cleanData.map(e => e.entryDate))].length;
     const totalCount = cleanData.reduce((sum, e) => sum + parseInt(e.count), 0);
     const avgDailyVal = totalDays > 0 ? parseFloat((totalCount / totalDays).toFixed(1)) : 0;
-    // Animate rounded value for display, keep float for calculations
-    animateNumber(document.getElementById('avgDaily'), 0, Math.round(avgDailyVal), 1000); 
+    animateNumber(document.getElementById('avgDaily'), 0, Math.round(avgDailyVal), 1000);
 
     const moodCounts = cleanData.reduce((acc, entry) => { acc[entry.mood] = (acc[entry.mood] || 0) + parseInt(entry.count); return acc; }, {});
     $('#topTrigger').text(Object.keys(moodCounts).length > 0 ? Object.entries(moodCounts).sort((a,b) => b[1]-a[1])[0][0] : '--');
