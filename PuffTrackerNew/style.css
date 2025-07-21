@@ -714,15 +714,14 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     margin-top: 4px;
 }
 
-/* Adjust the log button's text visibility */
 .bottom-nav .log-button span {
-    visibility: hidden; /* Hide the "Log" text */
-    height: 0;
-    margin: 0;
-    padding: 0;
-    display: block; /* Ensure it still occupies space for layout */
-    line-height: 0;
-    font-size: 0; /* Make sure it doesn't affect icon size */
+    /* visibility: hidden; */ /* Hide the "Log" text */
+    /* height: 0; */
+    /* margin: 0; */
+    /* padding: 0; */
+    /* line-height: 0; */
+    font-size: 0.75rem; /* Set it to your desired text size */
+    display: block; /* Keep this to ensure it stacks under the icon */
 }
 
 /* Media Queries for Responsiveness */
