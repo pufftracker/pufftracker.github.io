@@ -1,0 +1,421 @@
+const SS = SpreadsheetApp.getActiveSpreadsheet();
+const USERS_SHEET = SS.getSheetByName("Users");
+const LOGS_SHEET = SS.getSheetByName("Logs");
+const GOALS_SHEET = SS.getSheetByName("Goals");
+const POINTS_SHEET = SS.getSheetByName("Points");
+const FEEDBACK_SHEET = SS.getSheetByName("Feedback");
+
+// Main function to handle both GET and POST requests
+function doGet(e) {
+  Logger.log("doGet received event: " + JSON.stringify(e));
+  const params = e.parameter;
+  Logger.log("doGet received parameters: " + JSON.stringify(params));
+
+  if (params.action === "loadData") {
+    if (isTokenValid(params.userID, params.token)) {
+      return getUserLogs(params.email);
+    } else {
+      return jsonError("Invalid session. Please log in again.");
+    }
+  } else if (params.action === "loadGoals") { // This 'else if' structure is generally robust
+    if (isTokenValid(params.userID, params.token)) {
+      return getUserGoals(params.email);
+    } else {
+      return jsonError("Invalid session. Please log in again.");
+    }
+  } else if (params.action === "exportData") {
+    if (isTokenValid(params.userID, params.token)) {
+      return exportUserLogs(params.email);
+    } else {
+      return jsonError("Invalid session. Please log in again.");
+    }
+  } else if (params.action === "getUserPoints") {
+    if (isTokenValid(params.userID, params.token)) {
+      return getUserPoints(params.email);
+    } else {
+      return jsonError("Invalid session. Please log in again.");
+    }
+  } else if (params.action === "getPointHistory") {
+    if (isTokenValid(params.userID, params.token)) {
+      return getPointHistory(params.email);
+    } else {
+      return jsonError("Invalid session. Please log in again.");
+    }
+  }
+  // This return statement is now the last one, ensuring it's always valid if no action matches above
+  Logger.log("doGet: No matching action found for: " + params.action);
+  return jsonError("Invalid action.");
+}
+
+function doPost(e) {
+  Logger.log("doPost received event: " + JSON.stringify(e));
+  const params = e.parameter;
+  Logger.log("Received parameters: " + JSON.stringify(params));
+  const action = params.action;
+  Logger.log("Action received: " + action);
+
+  if (action === "register") {
+    return registerUser(params.email, params.password, params.nickname);
+  } else if (action === "login") { // Changed to else if
+    return loginUser(params.email, params.password);
+  } else if (action === "logEntry") { // Changed to else if
+    if (isTokenValid(params.userID, params.token)) {
+      return addLogEntry(params);
+    } else {
+      return jsonError("Invalid session. Please log in again.");
+    }
+  } else if (action === "saveGoal") { // Changed to else if
+    if (isTokenValid(params.userID, params.token)) {
+      return saveUserGoal(params);
+    } else {
+      return jsonError("Invalid session. Please log in again.");
+    }
+  } else if (action === "updateGoalProgress") { // Changed to else if
+     if (isTokenValid(params.userID, params.token)) {
+      return updateGoalProgress(params.email, params.goalType, params.currentProgress);
+    } else {
+      return jsonError("Invalid session. Please log in again.");
+    }
+  } else if (action === "redeemPoints") { // Changed to else if
+      if (isTokenValid(params.userID, params.token)) {
+          POINTS_SHEET.appendRow([
+              params.email,
+              -parseInt(params.pointsToRedeem),
+              new Date(),
+              "Redeemed: " + params.rewardName
+          ]);
+          return jsonSuccess({ message: "Points redeemed successfully!" });
+      } else {
+          return jsonError("Invalid session. Please log in again.");
+      }
+  } else if (action === "submitFeedback") { // Changed to else if
+    return submitFeedback(e);
+  }
+
+  // This return statement is the final fallback for doPost
+  Logger.log("doPost: No matching action found for: " + action);
+  return jsonError("Invalid action.");
+}
+
+// --- USER MANAGEMENT FUNCTIONS ---
+
+function registerUser(email, password, nickname) {
+  if (!email || !password || !nickname) return jsonError("Email, password, and nickname are required.");
+  const usersData = USERS_SHEET.getDataRange().getValues();
+  const userExists = usersData.some(row => row[1] === email);
+  if (userExists) return jsonError("User with this email already exists.");
+
+  const userID = Utilities.getUuid();
+  const passwordHash = hashPassword(password);
+  USERS_SHEET.appendRow([userID, email, nickname, passwordHash, "", ""]);
+  return jsonSuccess({ message: "Registration successful." });
+}
+
+function loginUser(email, password) {
+  const usersData = USERS_SHEET.getDataRange().getValues();
+  const headers = usersData.shift();
+  const emailIndex = headers.indexOf("Email");
+  const nicknameIndex = headers.indexOf("Nickname");
+  const hashIndex = headers.indexOf("PasswordHash");
+  const idIndex = headers.indexOf("UserID");
+  for (let i = 0; i < usersData.length; i++) {
+    if (usersData[i][emailIndex] === email) {
+      const userRow = usersData[i];
+      if (checkPassword(password, userRow[hashIndex])) {
+        const token = Utilities.getUuid();
+        const expiry = new Date(new Date().getTime() + 3600 * 1000 * 24);
+        
+        USERS_SHEET.getRange(i + 2, headers.indexOf("SessionToken") + 1).setValue(token);
+        USERS_SHEET.getRange(i + 2, headers.indexOf("TokenExpiry") + 1).setValue(expiry);
+        
+        return jsonSuccess({
+          message: "Login successful.",
+          userID: userRow[idIndex],
+          email: userRow[emailIndex],
+          nickname: userRow[nicknameIndex],
+          token: token
+        });
+      }
+    }
+  }
+  return jsonError("Invalid email or password.");
+}
+
+function isTokenValid(userID, token) {
+  if (!userID || !token) return false;
+  const usersData = USERS_SHEET.getDataRange().getValues();
+  const headers = usersData.shift();
+  const idIndex = headers.indexOf("UserID");
+  const tokenIndex = headers.indexOf("SessionToken");
+  const expiryIndex = headers.indexOf("TokenExpiry");
+  for (let i = 0; i < usersData.length; i++) {
+    if (usersData[i][idIndex] === userID && usersData[i][tokenIndex] === token) {
+      return new Date() < new Date(usersData[i][expiryIndex]);
+    }
+  }
+  return false;
+}
+
+// --- DATA MANAGEMENT FUNCTIONS ---
+
+function addLogEntry(data) {
+  const rowData = [
+    data.email,
+    new Date(),
+    data.date,
+    data.time,
+    parseInt(data.count),
+    data.mood,
+    data.location,
+    "" // Notes
+  ];
+  LOGS_SHEET.appendRow(rowData);
+
+  // --- New: Point Calculation Logic ---
+  let pointsAwarded = 0;
+  let pointReason = [];
+  pointsAwarded += 5; // Always award points for logging an entry
+  pointReason.push("Logged Entry");
+
+  if (data.mood && data.mood !== "Other") {
+      pointsAwarded += 2;
+      pointReason.push("Logged Mood");
+  }
+  if (data.location && data.location !== "Other") {
+      pointsAwarded += 1;
+      pointReason.push("Logged Location");
+  }
+
+  if (pointsAwarded > 0) {
+      POINTS_SHEET.appendRow([
+          data.email,
+          pointsAwarded,
+          new Date(),
+          pointReason.join(", ")
+      ]);
+  }
+  return jsonSuccess({ message: "Entry logged." });
+}
+
+function getUserLogs(email) {
+  const allLogs = LOGS_SHEET.getDataRange().getValues();
+  const headers = allLogs.shift();
+  const emailIndex = headers.indexOf("Email");
+  if (emailIndex === -1) {
+    return jsonError("Email column not found in Logs sheet.");
+  }
+  
+  const userLogs = allLogs.filter(row => row[emailIndex] === email);
+  const records = userLogs.map(row => {
+    let record = {};
+    headers.forEach((header, index) => {
+      let key = header.toLowerCase();
+      if (key) {
+        if ((key === 'date' || key === 'timestamp') && row[index] instanceof Date) {
+          record[key] = Utilities.formatDate(row[index], Session.getScriptTimeZone(), "yyyy-MM-dd'T'HH:mm:ss");
+        } else if (key === 'time' && row[index] instanceof Date) {
+          record[key] = Utilities.formatDate(row[index], Session.getScriptTimeZone(), "HH:mm:ss");
+        } else {
+          record[key] = row[index];
+        }
+      }
+    });
+    return record;
+  }).reverse();
+  return jsonSuccess({ records: records });
+}
+
+// --- NEW: GOAL MANAGEMENT FUNCTIONS ---
+function saveUserGoal(data) {
+  const email = data.email;
+  const goalType = data.goalType;
+  const targetValue = data.targetValue;
+  const targetDate = data.targetDate;
+  const startDate = new Date();
+
+  if (!email || !goalType || !targetValue || !targetDate) {
+    return jsonError("All goal fields are required.");
+  }
+
+  const goalsData = GOALS_SHEET.getDataRange().getValues();
+  const headers = goalsData.shift();
+  const emailIndex = headers.indexOf("Email");
+  const goalTypeIndex = headers.indexOf("GoalType");
+  let goalFoundRowIndex = -1;
+
+  for (let i = 0; i < goalsData.length; i++) {
+    if (goalsData[i][emailIndex] === email && goalsData[i][goalTypeIndex] === goalType) {
+      goalFoundRowIndex = i + 2;
+      break;
+    }
+  }
+
+  const rowData = [email, goalType, targetValue, targetDate, 0, "Active", Utilities.formatDate(startDate, Session.getScriptTimeZone(), "yyyy-MM-dd")];
+  if (goalFoundRowIndex !== -1) {
+    GOALS_SHEET.getRange(goalFoundRowIndex, 1, 1, rowData.length).setValues([rowData]);
+    return jsonSuccess({ message: "Goal updated successfully." });
+  } else {
+    GOALS_SHEET.appendRow(rowData);
+    return jsonSuccess({ message: "Goal saved successfully." });
+  }
+}
+
+function getUserGoals(email) {
+  const allGoals = GOALS_SHEET.getDataRange().getValues();
+  const headers = allGoals.shift();
+  const emailIndex = headers.indexOf("Email");
+  if (emailIndex === -1) {
+    return jsonError("Email column not found in Goals sheet.");
+  }
+
+  const userGoals = allGoals.filter(row => row[emailIndex] === email);
+  const records = userGoals.map(row => {
+    let record = {};
+    headers.forEach((header, index) => {
+      record[header.toLowerCase()] = row[index];
+    });
+    return record;
+  });
+  return jsonSuccess({ goals: records });
+}
+
+function updateGoalProgress(email, goalType, currentProgress) {
+  const goalsData = GOALS_SHEET.getDataRange().getValues();
+  const headers = goalsData.shift();
+  const emailIndex = headers.indexOf("Email");
+  const goalTypeIndex = headers.indexOf("GoalType");
+  const currentProgressIndex = headers.indexOf("CurrentProgress");
+  const statusIndex = headers.indexOf("Status");
+  for (let i = 0; i < goalsData.length; i++) {
+    if (goalsData[i][emailIndex] === email && goalsData[i][goalTypeIndex] === goalType) {
+      GOALS_SHEET.getRange(i + 2, currentProgressIndex + 1).setValue(currentProgress);
+      return jsonSuccess({ message: "Goal progress updated." });
+    }
+  }
+  return jsonError("Goal not found.");
+}
+
+
+// --- NEW: DATA EXPORT FUNCTIONS ---
+function exportUserLogs(email) {
+  const allLogs = LOGS_SHEET.getDataRange().getValues();
+  const headers = allLogs.shift();
+  const emailIndex = headers.indexOf("Email");
+  
+  if (emailIndex === -1) {
+    return jsonError("Email column not found in Logs sheet.");
+  }
+
+  const userLogs = allLogs.filter(row => row[emailIndex] === email);
+  
+  let csvContent = headers.join(",") + "\n";
+  userLogs.forEach(row => {
+    const formattedRow = row.map(cell => {
+      if (cell instanceof Date) {
+        return Utilities.formatDate(cell, Session.getScriptTimeZone(), "yyyy-MM-dd HH:mm:ss");
+      }
+      if (typeof cell === 'string' && cell.includes(',')) {
+        return `"${cell.replace(/"/g, '""')}"`;
+      }
+      return cell;
+    }).join(",");
+    csvContent += formattedRow + "\n";
+  });
+
+  return ContentService.createTextOutput(csvContent)
+    .setMimeType(ContentService.MimeType.CSV)
+    .downloadAsFile("PuffTracker_Data_Export.csv");
+}
+
+// --- NEW: POINTS MANAGEMENT FUNCTIONS ---
+function getUserPoints(email) {
+    const allPoints = POINTS_SHEET.getDataRange().getValues();
+    const headers = allPoints.shift();
+    const emailIndex = headers.indexOf("Email");
+    const pointsEarnedIndex = headers.indexOf("PointsEarned");
+
+    if (emailIndex === -1 || pointsEarnedIndex === -1) {
+        return jsonError("Points sheet headers missing or incorrect.");
+    }
+
+    let totalPoints = 0;
+    allPoints.forEach(row => {
+        if (row[emailIndex] === email) {
+            totalPoints += parseInt(row[pointsEarnedIndex] || 0);
+        }
+    });
+    return jsonSuccess({ totalPoints: totalPoints });
+}
+
+function getPointHistory(email) {
+    const allPoints = POINTS_SHEET.getDataRange().getValues();
+    const headers = allPoints.shift();
+
+    const emailIndex = headers.indexOf("Email");
+    const pointsEarnedIndex = headers.indexOf("PointsEarned");
+    const timestampIndex = headers.indexOf("Timestamp");
+    const reasonIndex = headers.indexOf("Reason");
+
+    if (emailIndex === -1 || pointsEarnedIndex === -1 || timestampIndex === -1 || reasonIndex === -1) {
+        return jsonError("Points sheet headers missing or incorrect for history.");
+    }
+
+    const userPointHistory = allPoints.filter(row => row[emailIndex] === email);
+    const records = userPointHistory.map(row => {
+        let record = {};
+        record.points = parseInt(row[pointsEarnedIndex] || 0);
+        record.reason = row[reasonIndex] || '';
+        record.timestamp = Utilities.formatDate(new Date(row[timestampIndex]), Session.getScriptTimeZone(), "yyyy-MM-dd'T'HH:mm:ss");
+        return record;
+    }).reverse();
+    return jsonSuccess({ history: records });
+}
+
+
+// --- NEW: FEEDBACK SUBMISSION FUNCTION ---
+function submitFeedback(e) {
+  Logger.log("submitFeedback function called.");
+  const params = e.parameter;
+  Logger.log("Feedback parameters: " + JSON.stringify(params));
+
+  const mobileNumber = params.mobileNumber || ""; // Mobile number is optional
+  const email = params.email;
+  const feedbackText = params.feedback;
+
+  if (!email || !feedbackText) {
+    return jsonError("Email and Feedback are mandatory.");
+  }
+
+  FEEDBACK_SHEET.appendRow([
+    new Date(),
+    mobileNumber,
+    email,
+    feedbackText,
+    "" // Keeping an empty string for the screenshot column in the sheet
+  ]);
+
+  Logger.log("Feedback appended to sheet.");
+  return jsonSuccess({ message: "Feedback submitted successfully." });
+}
+
+
+// --- UTILITY & SECURITY FUNCTIONS ---
+function hashPassword(password) {
+  const salt = "puff-tracker-salt";
+  const digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, password + salt);
+  return Utilities.base64Encode(digest);
+}
+
+function checkPassword(password, hash) {
+  return hashPassword(password) === hash;
+}
+
+function jsonSuccess(data) {
+  return ContentService.createTextOutput(JSON.stringify({ status: "success", ...data }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function jsonError(message) {
+  return ContentService.createTextOutput(JSON.stringify({ status: "error", message: message }))
+    .setMimeType(ContentService.MimeType.JSON);
+}

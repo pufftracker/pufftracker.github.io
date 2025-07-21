@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions - Puff Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Specific styles for Terms & Conditions page */
+        .static-page-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 3.5rem;
+        }
+        .static-page-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(to bottom, rgba(13, 202, 240, 0.1), transparent); /* Blueish tint for terms */
+            border-radius: 20px 20px 0 0;
+            z-index: 0;
+        }
+
+        .static-page-container h1 {
+            position: relative;
+            z-index: 1;
+            font-size: 3rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            color: #0dcaf0; /* Info/blue color */
+        }
+
+        .static-page-container h1 i {
+            font-size: 2.8rem;
+            color: #0dcaf0;
+        }
+
+        .static-page-container .section-intro {
+            text-align: center;
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content-block {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        .content-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(13, 202, 240, 0.15); /* Match tint */
+        }
+
+        .content-block h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+        .content-block h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .content-block p, .content-block ul {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        .content-block p:last-child, .content-block ul:last-child {
+            margin-bottom: 0;
+        }
+        .content-block ul {
+            list-style-type: disc;
+            padding-left: 25px;
+        }
+        .content-block ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-back { /* Reusing same button styles as about.html */
+            display: block;
+            width: fit-content;
+            margin: 2rem auto 0;
+            padding: 0.8rem 2.5rem;
+            font-size: 1.05rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+            border: 1px solid var(--primary-color);
+        }
+        .btn-back:hover {
+            background-color: #fff;
+            color: var(--dark-bg);
+            transform: translateY(-3px);
+            box-shadow: var(--hover-shadow);
+            border-color: #fff;
+        }
+
+        /* Responsive adjustments (same as about.html for consistency) */
+        @media (max-width: 768px) {
+            .static-page-container {
+                margin: 1.5rem auto;
+                padding: 1.5rem;
+                padding-top: 3rem;
+            }
+            .static-page-container::before {
+                height: 100px;
+            }
+            .static-page-container h1 {
+                font-size: 2.2rem;
+                gap: 10px;
+            }
+            .static-page-container h1 i {
+                font-size: 2rem;
+            }
+            .static-page-container .section-intro {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+            .content-block {
+                padding: 1.5rem;
+            }
+            .content-block h2 {
+                font-size: 1.6rem;
+            }
+            .content-block h3 {
+                font-size: 1.2rem;
+            }
+            .content-block p, .content-block ul {
+                font-size: 0.95rem;
+            }
+            .btn-back {
+                padding: 0.7rem 2rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .static-page-container {
+                margin: 1rem;
+                padding: 1rem;
+                padding-top: 2.5rem;
+            }
+            .static-page-container::before {
+                height: 80px;
+            }
+            .static-page-container h1 {
+                font-size: 1.8rem;
+                gap: 8px;
+            }
+            .static-page-container h1 i {
+                font-size: 1.6rem;
+            }
+            .static-page-container .section-intro {
+                font-size: 0.9rem;
+                margin-bottom: 1.5rem;
+            }
+            .content-block {
+                padding: 1.2rem;
+                margin-bottom: 1.5rem;
+            }
+            .content-block h2 {
+                font-size: 1.4rem;
+            }
+            .content-block h3 {
+                font-size: 1.1rem;
+            }
+            .content-block p, .content-block ul {
+                font-size: 0.85rem;
+            }
+            .btn-back {
+                width: 100%;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="static-page-container">
+        <h1><i class="fas fa-file-contract"></i> Terms & Conditions</h1>
+        <p class="section-intro">
+            Welcome to Puff Tracker. These terms and conditions outline the rules and regulations for the use of Puff Tracker's Website.
+            By accessing this website, we assume you accept these terms and conditions.
+        </p>
+
+        <div class="content-block">
+            <h2>Acceptance of Terms</h2>
+            <p>Your access to and use of Puff Tracker is conditioned upon your acceptance of and compliance with these Terms. These Terms apply to all visitors, users, and others who access or use the Service. By accessing or using the Service, you agree to be bound by these Terms. If you disagree with any part of the terms, then you may not access the Service.</p>
+        </div>
+
+        <div class="content-block">
+            <h2>Intellectual Property Rights</h2>
+            <p>Unless otherwise stated, Puff Tracker and/or its licensors own all intellectual property rights for all material and content presented on this Website. All intellectual property rights are expressly reserved. You may view and/or print pages from Puff Tracker for your own personal use, subject to restrictions set in these terms and conditions.</p>
+
+            <h3>You must not:</h3>
+            <ul>
+                <li>Republish material from Puff Tracker without prior written consent.</li>
+                <li>Sell, rent, or sub-license material from Puff Tracker.</li>
+                <li>Reproduce, duplicate, or copy material from Puff Tracker for commercial purposes.</li>
+                <li>Redistribute content from Puff Tracker, except for content specifically and expressly made available for redistribution (e.g., shareable infographics).</li>
+            </ul>
+        </div>
+
+        <div class="content-block">
+            <h2>User Content</h2>
+            <p>In these Terms and Conditions, "Your Content" refers to any data, text, files, information, usernames, images, graphics, photos, profiles, audio and video clips, sounds, musical works, authorship, applications, links, and other content or materials that you submit or transmit to, or through, the Service. By submitting Your Content, you grant Puff Tracker a non-exclusive, worldwide, royalty-free, irrevocable, perpetual, sublicensable, and transferable license to use, reproduce, adapt, publish, translate, and distribute it in any and all media. This license is solely for the purpose of operating and improving the Puff Tracker service.</p>
+            <p>You warrant and represent that Your Content is your own original work or that you have all necessary licenses, rights, consents, and permissions to use and authorize Puff Tracker to use Your Content as described herein. Your Content must not infringe upon the rights of any third party, including copyright, trademark, privacy, publicity, or other personal or proprietary rights. Puff Tracker reserves the right to remove any of Your Content from this Website at any time if deemed inappropriate, offensive, or in violation of these terms, without prior notice.</p>
+        </div>
+
+        <div class="content-block">
+            <h2>Disclaimer of Warranties</h2>
+            <p>This Website and the services provided are on an "as is" and "as available" basis. Puff Tracker makes no representations or warranties of any kind, express or implied, as to the operation of the Service or the information, content, materials, or products included on this Service. You expressly agree that your use of this Service is at your sole risk.</p>
+            <p>Puff Tracker does not warrant that the Service will be uninterrupted, secure, or error-free, that defects will be corrected, or that the Service or the servers that make it available are free of viruses or other harmful components. While we strive for accuracy, nothing contained on this Website shall be interpreted as providing advice of any kind.</p>
+        </div>
+
+        <div class="content-block">
+            <h2>Limitation of Liability</h2>
+            <p>In no event shall Puff Tracker, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Service; (ii) any conduct or content of any third party on the Service; (iii) any content obtained from the Service; and (iv) unauthorized access, use, or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence), or any other legal theory, whether or not we have been informed of the possibility of such damage, and even if a remedy set forth herein is found to have failed of its essential purpose.</p>
+        </div>
+
+        <div class="content-block">
+            <h2>Changes to Terms</h2>
+            <p>Puff Tracker reserves the right, at its sole discretion, to modify or replace these Terms at any time. If a revision is material, we will try to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion. By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Service.</p>
+        </div>
+        
+        <a href="javascript:history.back()" class="btn-back">Go Back to App</a>
+    </div>
+</body>
+</html>
