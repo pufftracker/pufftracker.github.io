@@ -12,10 +12,10 @@
     <div class="app-container">
         <div class="top-nav-dashboard">
             <div class="welcome-section">
-                <h2 id="welcome-message" class="animate-on-load">Welcome, <span>User</span></h2>
-                <p class="date-display animate-on-load delay-1" id="current-date"></p>
+                <h2 id="welcome-message"></h2>
+                <p class="date-display" id="current-date"></p>
             </div>
-            <div class="nav-actions-dashboard animate-on-load delay-2">
+            <div class="nav-actions-dashboard">
                 <div class="more-options-menu">
                     <button class="more-options-btn"><i class="fas fa-ellipsis-h"></i></button>
                     <div class="more-options-dropdown-content">
@@ -23,10 +23,7 @@
                         <a href="privacy.html" target="_blank">Privacy Policy</a>
                         <a href="terms.html" target="_blank">Terms & Conditions</a>
                         <a href="feedback.html" target="_blank">Feedback</a>
-                        <div class="dropdown-divider"></div>
-                        <button id="logout-button" class="dropdown-item btn-logout-text">
-                            Logout
-                        </button>
+                        <a href="#" id="logout-button">Logout</a>
                     </div>
                 </div>
             </div>
@@ -34,57 +31,57 @@
 
         <div class="main-content">
             <section id="dashboard" class="content-section active">
-                <div class="bento-grid-animated-mobile">
-                    <div class="bento-box animate-on-scroll delay-1">
+                <div class="bento-grid">
+                    <div class="bento-box">
                         <div class="box-content">
-                            <div class="stat-icon-wrapper"><i class="fas fa-calendar-day stat-icon"></i></div>
-                            <div class="stat-label">Smoked Today</div>
-                            <div class="stat-value-animated" id="todayCount" data-target="0">0</div>
-                        </div>
-                    </div>
-                    <div class="bento-box animate-on-scroll delay-2">
-                        <div class="box-content">
-                            <div class="stat-icon-wrapper"><i class="fas fa-history stat-icon"></i></div>
+                            <div class="stat-icon"><i class="fas fa-history"></i></div>
+                            <div class="stat-value" id="timeSinceLast">--</div>
                             <div class="stat-label">Time Since Last</div>
-                            <div class="stat-value-animated" id="timeSinceLast" data-target="0">--</div>
                         </div>
                     </div>
-                    <div class="bento-box animate-on-scroll delay-3">
+                    <div class="bento-box">
                         <div class="box-content">
-                            <div class="stat-icon-wrapper"><i class="fas fa-clock stat-icon"></i></div>
+                            <div class="stat-icon"><i class="fas fa-calendar-day"></i></div>
+                            <div class="stat-value" id="todayCount">0</div>
+                            <div class="stat-label">Smoked Today</div>
+                        </div>
+                    </div>
+                    <div class="bento-box">
+                        <div class="box-content">
+                            <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                            <div class="stat-value" id="avgInterval">--</div>
                             <div class="stat-label">Avg Interval</div>
-                            <div class="stat-value-animated" id="avgInterval" data-target="0">--</div>
                         </div>
                     </div>
-                    <div class="bento-box animate-on-scroll delay-4">
+                    <div class="bento-box">
                         <div class="box-content">
-                            <div class="stat-icon-wrapper"><i class="fas fa-trophy stat-icon"></i></div>
+                            <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                            <div class="stat-value" id="longestStreak">--</div>
                             <div class="stat-label">Longest Streak</div>
-                            <div class="stat-value-animated" id="longestStreak" data-target="0">--</div>
                         </div>
                     </div>
-                    <div class="bento-box animate-on-scroll delay-5">
+                    <div class="bento-box">
                         <div class="box-content">
-                            <div class="stat-icon-wrapper"><i class="fas fa-star stat-icon"></i></div>
+                            <div class="stat-icon"><i class="fas fa-star"></i></div>
+                            <div class="stat-value" id="bestDay">--</div>
                             <div class="stat-label">Best Day</div>
-                            <div class="stat-value-animated" id="bestDay" data-target="0">--</div>
                         </div>
                     </div>
-                    <div class="bento-box animate-on-scroll delay-6">
+                    <div class="bento-box">
                         <div class="box-content">
-                            <div class="stat-icon-wrapper"><i class="fas fa-calculator stat-icon"></i></div>
+                            <div class="stat-icon"><i class="fas fa-calculator"></i></div>
+                            <div class="stat-value" id="avgDaily">0</div>
                             <div class="stat-label">Daily Average</div>
-                            <div class="stat-value-animated" id="avgDaily" data-target="0">0</div>
                         </div>
                     </div>
-                    <div class="bento-box animate-on-scroll delay-7">
+                    <div class="bento-box">
                         <div class="box-content">
-                            <div class="stat-icon-wrapper"><i class="fas fa-fire stat-icon"></i></div>
+                            <div class="stat-icon"><i class="fas fa-fire"></i></div>
+                            <div class="stat-value" id="topTrigger">--</div>
                             <div class="stat-label">Top Trigger</div>
-                            <div class="stat-value-animated" id="topTrigger" data-target="0">--</div>
                         </div>
                     </div>
-                    <div class="bento-box chart-full-width animate-on-scroll delay-8">
+                    <div class="bento-box chart-full-width">
                         <div class="chart-header">
                             <i class="fas fa-chart-line"></i>
                             <span>Daily Trend (Last 7 Days)</span>
@@ -97,26 +94,27 @@
             </section>
 
             <section id="goals" class="content-section">
-                <div class="section-header-animated animate-on-scroll">
+                <div class="header">
                     <h2><i class="fas fa-bullseye"></i> Your Goals</h2>
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#goalModal"><i class="fas fa-plus"></i> Set New Goal</button>
                 </div>
-                <div id="goal-alert-container" class="animate-on-scroll delay-1"></div>
-                <div class="bento-grid-animated-mobile goals-grid-custom">
+                <div id="goal-alert-container"></div>
+                <div class="bento-grid" id="activeGoalsContainer">
                     </div>
-                <hr class="animate-on-scroll delay-2" style="border-color: var(--border-color); margin: 3rem 0;">
-                <div class="section-header-animated mt-4 animate-on-scroll delay-3">
+                <hr style="border-color: var(--border-color); margin: 3rem 0;">
+                <div class="header mt-4">
                     <h3>Goal History</h3>
                 </div>
-                <div class="table-responsive table-animated animate-on-scroll delay-4">
+                <div class="table-responsive">
                     <table class="table" id="goalsHistoryTable">
                         <thead>
                             <tr>
                                 <th>Goal Type</th>
                                 <th>Target Value</th>
-                                <th>Progress</th>
-                                <th>Status</th>
                                 <th>Target Date</th>
+                                <th>Current Progress</th>
+                                <th>Status</th>
+                                <th>Start Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -126,72 +124,74 @@
             </section>
 
             <section id="analytics" class="content-section">
-                <div class="section-header-animated animate-on-scroll">
+                <div class="header">
                     <h2><i class="fas fa-chart-bar"></i> Advanced Analytics</h2>
                 </div>
-                <div class="bento-grid-animated-mobile animate-on-scroll delay-1">
+                <div class="bento-grid">
                      <div class="bento-box">
                         <div class="box-content">
-                            <div class="stat-icon-wrapper"><i class="fas fa-chart-area stat-icon"></i></div>
+                            <div class="stat-icon"><i class="fas fa-chart-area"></i></div>
+                            <div class="stat-value" id="totalSmoked">--</div>
                             <div class="stat-label">Total Smoked (All Time)</div>
-                            <div class="stat-value-animated" id="totalSmoked" data-target="0">--</div>
                         </div>
                     </div>
                     <div class="bento-box">
                         <div class="box-content">
-                            <div class="stat-icon-wrapper"><i class="fas fa-calendar-alt stat-icon"></i></div>
+                            <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                            <div class="stat-value" id="totalDaysTracked">--</div>
                             <div class="stat-label">Total Days Tracked</div>
-                            <div class="stat-value-animated" id="totalDaysTracked" data-target="0">--</div>
                         </div>
                     </div>
                     <div class="bento-box">
                         <div class="box-content">
-                            <div class="stat-icon-wrapper"><i class="fas fa-filter stat-icon"></i></div>
-                            <div class="stat-label">2nd Top Trigger</div>
+                            <div class="stat-icon"><i class="fas fa-filter"></i></div>
                             <div class="stat-value" id="secondaryTopTrigger">--</div>
+                            <div class="stat-label">2nd Top Trigger</div>
+                        </div>
+                    </div>
+
+                    <div class="bento-box chart-full-width">
+                        <div class="chart-header">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Mood Distribution</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="moodDistributionChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bento-box chart-full-width">
+                        <div class="chart-header">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Location Distribution</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="locationDistributionChart"></canvas>
                         </div>
                     </div>
                     <div class="bento-box">
                         <div class="box-content">
-                            <div class="stat-icon-wrapper"><i class="fas fa-clock stat-icon"></i></div>
+                            <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                            <div class="stat-value" id="avgMonthly">--</div>
                             <div class="stat-label">Avg. Monthly Smoked</div>
-                            <div class="stat-value-animated" id="avgMonthly" data-target="0">--</div>
                         </div>
                     </div>
                      <div class="bento-box">
                         <div class="box-content">
-                            <div class="stat-icon-wrapper"><i class="fas fa-calendar-week stat-icon"></i></div>
+                            <div class="stat-icon"><i class="fas fa-calendar-week"></i></div>
+                            <div class="stat-value" id="avgWeekly">--</div>
                             <div class="stat-label">Avg. Weekly Smoked</div>
-                            <div class="stat-value-animated" id="avgWeekly" data-target="0">--</div>
                         </div>
-                    </div>
-                </div>
-                <div class="bento-box chart-full-width animate-on-scroll delay-2">
-                    <div class="chart-header">
-                        <i class="fas fa-chart-pie"></i>
-                        <span>Mood Distribution</span>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="moodDistributionChart"></canvas>
-                    </div>
-                </div>
-                <div class="bento-box chart-full-width animate-on-scroll delay-3">
-                    <div class="chart-header">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Location Distribution</span>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="locationDistributionChart"></canvas>
                     </div>
                 </div>
             </section>
 
+
             <section id="history" class="content-section">
-                <div class="section-header-animated animate-on-scroll">
+                 <div class="header">
                     <h2><i class="fas fa-history"></i> Smoking History</h2>
                     <button id="exportDataButton" class="btn btn-secondary"><i class="fas fa-download"></i> Export Data</button>
                 </div>
-                <div class="table-responsive table-animated animate-on-scroll delay-1">
+                <div class="table-responsive">
                     <table class="table" id="historyTable">
                         <thead>
                             <tr>
@@ -252,6 +252,7 @@
                                 <option value="Home" selected>Home</option>
                                 <option value="Office">Office</option>
                                 <option value="Outside Home">Outside Home</option>
+                                <option value="Other">Other</option>
                             </select>
                         </div>
                     </form>
