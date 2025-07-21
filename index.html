@@ -4,24 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Puff Tracker</title>
-    <script>
+    <link rel="stylesheet" href="style.css"> <script>
         document.addEventListener('DOMContentLoaded', function() {
             const userID = localStorage.getItem('puffTrackerUserID');
             const token = localStorage.getItem('puffTrackerToken');
             const nickname = localStorage.getItem('puffTrackerNickname');
             const email = localStorage.getItem('puffTrackerEmail');
 
-            if (userID && token && nickname && email) {
-                // User is logged in, redirect to dashboard
-                window.location.href = 'dashboard.html';
-            } else {
-                // User is not logged in, redirect to landing page
-                window.location.href = 'landing.html';
-            }
+            // Simulate a delay for the loader (optional, remove in production if not needed)
+            setTimeout(() => {
+                if (userID && token && nickname && email) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    window.location.href = 'landing.html';
+                }
+            }, 1000); // 1 second delay
         });
     </script>
 </head>
 <body>
-    <p>Loading Puff Tracker...</p>
+    <div class="loader-container">
+        <div class="spinner"></div>
+        <div class="loader-text">Loading Puff Tracker...</div>
+    </div>
 </body>
 </html>

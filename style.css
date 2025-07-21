@@ -714,6 +714,7 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     margin-top: 4px;
 }
 
+/* Adjust the log button's text visibility */
 .bottom-nav .log-button span {
     /* visibility: hidden; */ /* Hide the "Log" text */
     /* height: 0; */
@@ -724,6 +725,69 @@ thead th { font-weight: 600; background-color: rgba(255, 255, 255, 0.1); }
     display: block; /* Keep this to ensure it stacks under the icon */
 }
 
+/* --- Index Page Loader Styles --- */
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full viewport height */
+    background-color: var(--dark-bg); /* Match your body background */
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif; /* Consistent font */
+    padding: 20px;
+    text-align: center;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 8px solid rgba(255, 255, 255, 0.2); /* Light gray border */
+    border-top: 8px solid var(--primary-color); /* Primary color for the spinning part */
+    border-radius: 50%;
+    animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite; /* Optimized cubic-bezier */
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loader-text {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text-muted); /* Slightly muted text for elegance */
+    opacity: 0; /* Start hidden for animation */
+    transform: translateY(10px);
+    animation: fadeInSlideUp 0.8s ease-out forwards; /* Reuse existing animation */
+    animation-delay: 0.5s; /* Delay text appearance after spinner starts */
+}
+
+/* Optional: Add a subtle overall fade-in for the whole loader experience */
+.loader-container {
+    animation: fadeInApp 0.8s ease-out forwards;
+}
+
+/* If you want to use a specific icon instead of a spinning circle */
+/* For example, a smoking icon */
+/*
+.spinner {
+    width: auto;
+    height: auto;
+    border: none;
+    background: none;
+    font-size: 4rem;
+    color: var(--primary-color);
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
+}
+*/
 /* Media Queries for Responsiveness */
 @media (max-width: 992px) { /* Tablets and larger phones */
     .nav-links { display: none; } /* Hide desktop nav links on smaller screens */
