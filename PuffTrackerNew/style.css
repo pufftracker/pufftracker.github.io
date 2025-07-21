@@ -498,7 +498,7 @@ h2.section-title {
 }
 
 /* --- Authentication Pages (Retained existing styles) --- */
-.auth-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem; }
+.auth-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 1rem; }
 .auth-box {
     background: var(--card-bg);
     backdrop-filter: blur(15px);
