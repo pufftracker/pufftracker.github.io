@@ -137,7 +137,7 @@ body::before {
 
 @media (max-width: 576px) {
     .landing-nav .logo span {
-        top: 3px; /* Reset or fine-tune for very small screens */
+        top: 4px; /* Reset or fine-tune for very small screens */
     }
 }
 .logo i { color: var(--primary-color); font-size: 1.8rem; }
