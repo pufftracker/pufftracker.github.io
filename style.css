@@ -117,6 +117,29 @@ body::before {
     align-items: center;
     gap: 8px;
 }
+/* Adjust alignment for header logo text */
+.logo {
+    /* Existing styles */
+    align-items: center; /* Keep this to start from a centered baseline */
+}
+
+.logo span { /* Wrap your text in a span if you haven't already */
+    position: relative;
+    top: 5px; /* Adjust this value (e.g., 1px, 3px) until it looks right */
+}
+
+/* For mobile adjustments if needed */
+@media (max-width: 992px) {
+    .landing-nav .logo span {
+        top: 4px; /* Smaller adjustment for smaller logo text */
+    }
+}
+
+@media (max-width: 576px) {
+    .landing-nav .logo span {
+        top: 3px; /* Reset or fine-tune for very small screens */
+    }
+}
 .logo i { color: var(--primary-color); font-size: 1.8rem; }
 .nav-links a {
     margin: 0 1.2rem;
